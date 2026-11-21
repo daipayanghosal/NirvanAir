@@ -39,8 +39,10 @@ export const IndoorAirView: React.FC<IndoorAirViewProps> = ({
   });
 
   const aqi = envData.air_quality.aqi;
-  const currentHour = new Date().getHours();
-  const isSafeVentilationHour = currentHour >= 13 && currentHour <= 15;
+  const [isSafeVentilationHour] = useState(() => {
+    const currentHour = new Date().getHours();
+    return currentHour >= 13 && currentHour <= 15;
+  });
 
   const toggleCheck = (id: string) => {
     const updated = { ...checkedItems, [id]: !checkedItems[id] };

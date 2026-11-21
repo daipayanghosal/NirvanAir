@@ -7,7 +7,13 @@
     "dev:frontend": "npm run dev --prefix frontend",
     "dev": "npx concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm run dev:backend\" \"npm run dev:frontend\"",
     "build": "npm run build --prefix frontend",
-    "start": "python -m uvicorn backend.main:app --port 8000"
+    "start": "python -m uvicorn backend.main:app --port 8000",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:run": "npm test",
+    "test:frontend": "npm run test --prefix frontend",
+    "test:backend": "python -m pytest backend/tests/ -v",
+    "lint": "npm run lint --prefix frontend",
+    "typecheck": "npm run typecheck --prefix frontend"
   },
   "keywords": [
     "air-quality",

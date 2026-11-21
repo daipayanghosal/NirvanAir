@@ -19,7 +19,7 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
   envData,
   userProfile
 }) => {
-  const [messages, setMessages] = useState<ChatMessage[]>([
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
       id: "welcome",
       role: "assistant",

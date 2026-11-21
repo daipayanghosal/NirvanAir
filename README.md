@@ -141,7 +141,57 @@ Access the backend API docs at: **`http://localhost:8000/docs`**
 
 ---
 
-## 5. Demonstration Scenario
+## 5. Testing & Quality Assurance
+
+NirvanAir includes a comprehensive end-to-end automated testing suite with **46 test cases** covering core scientific calculations, FastAPI endpoints, frontend components, and offline heuristic fallback engines.
+
+### Running the Test Suite
+
+Run the full unified test suite (both frontend & backend):
+```bash
+npm test
+```
+
+Or execute individual test suites:
+- **Frontend Test Suite (Vitest & Testing Library):**
+  ```bash
+  npm run test:frontend
+  ```
+- **Backend Test Suite (Pytest & AsyncIO):**
+  ```bash
+  npm run test:backend
+  # or directly:
+  python -m pytest backend/tests/ -v
+  ```
+- **TypeScript Static Verification & Build:**
+  ```bash
+  npm run typecheck
+  npm run build
+  ```
+
+### Test Suite Structure & Coverage
+
+| Domain | Framework | Tests | Key Test Areas |
+|--------|-----------|-------|----------------|
+| **Backend API** | `pytest`, `httpx` | 11 tests | Root, Health, NAQI Demo Telemetry, City Search, Swaps Catalog, Swap Impact Math, Simulator Scenarios, Indoor Doctor Protocols, Daily Planner, AI Briefing, Conversational Assistant |
+| **Backend Services** | `pytest` | 7 tests | CPCB NAQI breakpoint mapping, Diurnal hourly inversion curve math, Durgapur baseline integrity, Swap catalog calculations, Community simulator scaling, Planner adaptive scheduling, Heuristic briefing fallback |
+| **Frontend Telemetry** | `vitest` | 11 tests | CPCB NAQI category thresholds (Good through Severe), diurnal inversion curves, multi-pollutant concentrations (PM2.5, PM10, NO2, SO2, CO, O3), CPCB station metadata |
+| **Frontend Swaps** | `vitest` | 6 tests | Default swap catalog, ARAI/CPCB emission factors, 30-day cumulative impact math, linear scaling with duration, multi-swap aggregation, empty selection safety |
+| **Frontend Simulator**| `vitest` | 4 tests | 100-household baseline, linear scaling from 100 to 500 households, vehicle reduction sensitivity, scientific integrity disclaimer guardrails |
+| **Frontend Heuristics**| `vitest` | 4 tests | Offline daily briefing generation, 7-segment smog inversion timeline, indoor exercise rescheduling, structured recommendation cards |
+| **UI & Accessibility** | `vitest`, RTL | 3 tests | Navbar branding & NAQI badge landmarks, Sidebar 8 intelligence module navigation, Onboarding modal step progression |
+
+### Continuous Integration (CI/CD)
+
+Automated tests are enforced via GitHub Actions on every push and pull request (`.github/workflows/ci.yml`), validating:
+1. Python 3.12 backend pytest suite
+2. Node.js 20 frontend Vitest suite
+3. TypeScript compiler check (`tsc -b`)
+4. Production bundle build check (`vite build`)
+
+---
+
+## 6. Demonstration Scenario
 
 - **Initial Demonstration Hub:** Durgapur, West Bengal, India (Industrial corridor subject to winter thermal smog inversions).
 - **Baseline Scenario:** Toggle between *Live Sensing* and the curated *Durgapur Winter Smog Baseline* (285 NAQI, Poor, 184.5 µg/m³ PM2.5) via the toggle in the top navigation bar.
@@ -149,5 +199,5 @@ Access the backend API docs at: **`http://localhost:8000/docs`**
 
 ---
 
-## 6. License
+## 7. License
 MIT License. Developed for Google GenAI Innovation Challenge (PromptWars).

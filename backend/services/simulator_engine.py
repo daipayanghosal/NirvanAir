@@ -64,6 +64,12 @@ def run_community_scenario(
     total_community_savings_inr = int(round(fuel_savings_inr + power_savings_inr))
     
     return {
+        "num_households": num_households,
+        "avoided_vehicle_km_monthly": int(round(monthly_km_avoided)),
+        "fuel_saved_liters_monthly": total_fuel_saved_litres,
+        "co2_avoided_kg_monthly": total_co2_reduced_kg,
+        "pm25_soot_avoided_kg_monthly": total_pm25_reduced_kg,
+        "methodology_notes": "Quantified emission reductions modeled from ARAI, CPCB, and IPCC tier-1 emission factors.",
         "parameters": {
             "num_households": num_households,
             "vehicle_reduction_percent": vehicle_reduction_percent,

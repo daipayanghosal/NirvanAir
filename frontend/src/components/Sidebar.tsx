@@ -61,7 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       id: "community",
-      label: "Community & What-If",
+      label: "Community Impact & What-If",
       icon: Users2,
       description: "Impact simulator",
       badge: "Simulator"

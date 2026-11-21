@@ -6,6 +6,25 @@ from backend.config import NAQI_BREAKPOINTS, DEFAULT_LOCATION, OPENAQ_API_KEY
 
 logger = logging.getLogger(__name__)
 
+def calculate_diurnal_hourly_forecast(base_aqi: int = 285) -> List[Dict[str, Any]]:
+    """Calculates diurnal 24-hour cycle of AQI modeling nocturnal boundary layer compression and midday solar dispersion."""
+    forecast = []
+    # Diurnal multipliers reflecting winter thermal inversion (morning peak, midday solar trough)
+    diurnal_multipliers = [
+        0.75, 0.78, 0.82, 0.90, 0.98, 1.05, 1.12, 1.18, 1.15, 1.08, 0.96, 0.88,
+        0.80, 0.74, 0.72, 0.76, 0.82, 0.92, 1.02, 1.10, 1.12, 1.06, 0.94, 0.84
+    ]
+    for hour, mult in enumerate(diurnal_multipliers):
+        time_str = f"{hour:02d}:00"
+        val = int(round(base_aqi * mult))
+        forecast.append({
+            "time": time_str,
+            "aqi": val,
+            "pm25": round(val * 0.65, 1),
+            "is_peak": mult >= 1.05
+        })
+    return forecast
+
 def calculate_naqi_subindex(concentration: float, pollutant: str) -> Optional[int]:
     """Calculate the Indian CPCB NAQI sub-index for a given pollutant concentration."""
     if pollutant not in NAQI_BREAKPOINTS or concentration is None or concentration < 0:
@@ -208,7 +227,8 @@ def get_demo_durgapur_data() -> Dict[str, Any]:
                 "o3": {"value": 38.6, "unit": "µg/m³", "subindex": 38, "who_standard": 100.0, "times_who": 0.38}
             },
             "us_aqi_equivalent": 234,
-            "european_aqi_equivalent": 85
+            "european_aqi_equivalent": 85,
+            "hourly_trend_24h": hourly_trend
         },
         "weather": {
             "temperature_c": 19.4,
@@ -220,7 +240,12 @@ def get_demo_durgapur_data() -> Dict[str, Any]:
             "pressure_hpa": 1016.2,
             "condition": "Hazy Smog / Inversion",
             "uv_index": 2.8,
-            "inversion_risk": "High (Thermal inversion trapping industrial and vehicular emissions near surface)"
+            "inversion_risk": "High (Thermal inversion trapping industrial and vehicular emissions near surface)",
+            "inversion_layer": {
+                "present": True,
+                "strength": "Strong",
+                "altitude_m": 120
+            }
         },
         "hourly_24h": hourly_trend
     }
@@ -332,7 +357,8 @@ async def get_consolidated_environmental_data(lat: float, lon: float, location_n
                 "o3": {"value": round(o3_val, 1), "unit": "µg/m³", "subindex": calculate_naqi_subindex(o3_val, "o3") or 25, "who_standard": 100.0, "times_who": round(o3_val / 100.0, 1) if o3_val else 1}
             },
             "us_aqi_equivalent": int(current_aq.get("us_aqi", naqi_value * 0.85) or 100),
-            "european_aqi_equivalent": int(current_aq.get("european_aqi", 60) or 50)
+            "european_aqi_equivalent": int(current_aq.get("european_aqi", 60) or 50),
+            "hourly_trend_24h": hourly_trend
         },
         "weather": {
             "temperature_c": round(current_w.get("temperature_2m", 22.0), 1),
@@ -344,7 +370,11 @@ async def get_consolidated_environmental_data(lat: float, lon: float, location_n
             "pressure_hpa": round(current_w.get("surface_pressure", 1013.2), 1),
             "condition": "Partly Cloudy" if current_w.get("precipitation", 0) == 0 else "Precipitation",
             "uv_index": 3.2,
-            "inversion_risk": "Moderate" if int(current_w.get("wind_speed_10m", 5)) < 8 else "Low (Good dispersion)"
+            "inversion_risk": "Moderate" if int(current_w.get("wind_speed_10m", 5)) < 8 else "Low (Good dispersion)",
+            "inversion_layer": {
+                "present": int(current_w.get("wind_speed_10m", 5)) < 8,
+                "strength": "Moderate" if int(current_w.get("wind_speed_10m", 5)) < 8 else "Low"
+            }
         },
         "hourly_24h": hourly_trend
     }

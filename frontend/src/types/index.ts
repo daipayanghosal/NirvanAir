@@ -112,9 +112,11 @@ export interface DailyPlanSegment {
   segment: string;
   time_window: string;
   suggested_activity: string;
+  suggested_action?: string;
   reasoning: string;
   expected_benefit: string;
   alternative: string;
+  alternative_if_impractical?: string;
   status: "recommended" | "adjusted" | "critical";
   icon: string;
 }

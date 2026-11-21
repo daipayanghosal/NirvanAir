@@ -150,4 +150,8 @@ def generate_daily_plan(env_data: Dict[str, Any], user_profile: Dict[str, Any]) 
         "icon": "Moon"
     })
 
+    for item in plan:
+        item["suggested_action"] = item["suggested_activity"]
+        item["alternative_if_impractical"] = item["alternative"]
+
     return plan

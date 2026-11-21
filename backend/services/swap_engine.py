@@ -131,7 +131,14 @@ SUSTAINABLE_SWAPS_CATALOG = [
 ]
 
 def get_all_swaps() -> List[Dict[str, Any]]:
-    return SUSTAINABLE_SWAPS_CATALOG
+    enriched = []
+    for s in SUSTAINABLE_SWAPS_CATALOG:
+        copy = dict(s)
+        b = copy.get("environmental_benefit", {})
+        copy["co2_avoided_kg_month"] = round(b.get("co2_saved_kg_per_day", 0.0) * 30, 1)
+        copy["pm25_avoided_g_month"] = round(b.get("pm25_avoided_g_per_day", 0.0) * 30, 1)
+        enriched.append(copy)
+    return enriched
 
 def calculate_swap_impact(swap_ids: List[str], days: int = 30) -> Dict[str, Any]:
     """Calculate aggregate cumulative savings for a list of recorded swaps."""
@@ -149,13 +156,23 @@ def calculate_swap_impact(swap_ids: List[str], days: int = 30) -> Dict[str, Any]
         total_fuel += b.get("fuel_saved_litres_per_day", 0.0) * days
         total_inr += f.get("daily_savings_inr", 0.0) * days
 
+    res_co2 = round(total_co2, 2)
+    res_pm25 = round(total_pm25, 1)
+    res_inr = int(round(total_inr))
+    res_tree = round(total_co2 / 21.7, 1)
+
     return {
         "swaps_count": len(selected_swaps),
         "days_tracked": days,
-        "total_co2_saved_kg": round(total_co2, 2),
-        "total_pm25_avoided_grams": round(total_pm25, 1),
+        "total_co2_saved_kg": res_co2,
+        "total_pm25_avoided_grams": res_pm25,
         "total_fuel_saved_litres": round(total_fuel, 1),
-        "total_financial_savings_inr": int(round(total_inr)),
-        "trees_equivalent": round(total_co2 / 21.7, 1), # 1 mature tree absorbs ~21.7 kg CO2/year
-        "clean_air_breathing_days": round(total_pm25 / 15.0, 1) # based on avoiding 15g particulate burden
+        "total_financial_savings_inr": res_inr,
+        "trees_equivalent": res_tree,
+        "clean_air_breathing_days": round(total_pm25 / 15.0, 1),
+        # Alias keys for broad API / test suite interoperability
+        "co2_saved_kg": res_co2,
+        "pm25_soot_prevented_grams": res_pm25,
+        "cost_savings_inr": res_inr,
+        "tree_year_equivalent": res_tree
     }

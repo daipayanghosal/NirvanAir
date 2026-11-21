@@ -80,6 +80,11 @@ def fallback_nirvanair_briefing(env_data: Dict[str, Any], user_profile: Dict[str
                 "action": "Select metro/electric bus or carpool over single-occupancy petrol vehicle.",
                 "reason": "Prevents additional tailpipe hydrocarbon and NOx emissions in localized stagnation zones.",
                 "benefit": "Saves an estimated 3.2 kg CO2e and 45g PM2.5 per 15km commute."
+            },
+            {
+                "action": "Maintain clean indoor air: damp-mop floors twice daily and eliminate smoldering incense or coils.",
+                "reason": "Dry sweeping resuspends hazardous settled dust, while smoldering materials release severe VOCs.",
+                "benefit": "Reduces indoor exposure levels by up to 85%."
             }
         ],
         "generated_by": "NirvanAir Deterministic Heuristic Core (Active Fallback)",
@@ -245,7 +250,18 @@ Respond in valid JSON with this structure:
                 f"- **Why you should do it:** Current particulate levels are within manageable bounds for general fitness enthusiasts.\n"
                 f"- **What difference it will make:** Maintains cardiovascular endurance without hazardous microvascular exposure."
             )
-            cards = []
+            cards = [{
+                "recommendation_id": "rec_exercise_optimal",
+                "category": "Health",
+                "title": "Optimal Outdoor Activity Window",
+                "priority": "low",
+                "suggested_action": "Proceed with outdoor jogging or workout; atmospheric dispersion is favorable.",
+                "reasoning": f"Current AQI is {aqi} ({category}), within safe bounds for outdoor physical exercise.",
+                "expected_benefit": "Full aerobic exercise benefit with minimal particulate intake.",
+                "confidence": 0.95,
+                "data_sources": ["CPCB Health Advisory", "WHO Air Quality Guidelines"],
+                "limitations": "Avoid heavy traffic arteries during peak commute hours."
+            }]
 
     elif "window" in query_lower or "ventilate" in query_lower or "air" in query_lower:
         md = (

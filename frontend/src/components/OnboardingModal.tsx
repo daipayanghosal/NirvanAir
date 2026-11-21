@@ -21,10 +21,10 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
   userProfile,
   onComplete
 }) => {
-  if (!isOpen) return null;
-
   const [step, setStep] = useState(1);
   const [profile, setProfile] = useState<UserProfile>({ ...userProfile });
+
+  if (!isOpen) return null;
 
   const handleNext = () => {
     if (step < 4) {

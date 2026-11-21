@@ -36,7 +36,7 @@ export function App() {
 
   // Environmental Telemetry State
   const [envData, setEnvData] = useState<EnvironmentalData>(DEMO_DURGAPUR_DATA);
-  const [loadingData, setLoadingData] = useState<boolean>(false);
+  const [, setLoadingData] = useState<boolean>(false);
 
   // User Profile State (persisted in localStorage)
   const [userProfile, setUserProfile] = useState<UserProfile>(() => {
@@ -66,7 +66,9 @@ export function App() {
     try {
       const saved = localStorage.getItem("nirvanair_recorded_swaps");
       if (saved) return JSON.parse(saved);
-    } catch (e) {}
+    } catch {
+      // ignore
+    }
     return ["swap_commute_car_to_metro", "swap_mosquito_coil_to_liquid_vaporizer"];
   });
   const [impactData, setImpactData] = useState<SwapImpactResult | null>(null);
@@ -86,12 +88,6 @@ export function App() {
     localStorage.setItem("nirvanair_recorded_swaps", JSON.stringify(recordedSwapIds));
     computeSwapImpact(recordedSwapIds, 30).then(setImpactData);
   }, [recordedSwapIds]);
-
-  // Initial Load: Fetch Swaps & Air Quality Data
-  useEffect(() => {
-    fetchSwaps().then(setSwaps);
-    loadEnvironmentalData(userProfile.latitude, userProfile.longitude, userProfile.location_name, isDemoMode);
-  }, []);
 
   const loadEnvironmentalData = async (lat: number, lon: number, locationName: string, demo: boolean) => {
     setLoadingData(true);
@@ -113,6 +109,13 @@ export function App() {
       setLoadingData(false);
     }
   };
+
+  // Initial Load: Fetch Swaps & Air Quality Data
+  useEffect(() => {
+    fetchSwaps().then(setSwaps);
+    loadEnvironmentalData(userProfile.latitude, userProfile.longitude, userProfile.location_name, isDemoMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleUpdateLocation = (name: string, lat: number, lon: number) => {
     const updated = { ...userProfile, location_name: name, latitude: lat, longitude: lon };
