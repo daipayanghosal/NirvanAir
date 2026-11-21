@@ -605,7 +605,57 @@ export async function sendChatMessage(
       return await res.json();
     }
   } catch (e) {
-    console.warn("Chat API call failed, generating fallback response:", e);
+    console.warn("Chat API call failed, attempting client-side Gemini or heuristic fallback:", e);
+  }
+
+  // Client-side direct Gemini call if user configured API key in Settings
+  const clientGeminiKey = localStorage.getItem("airwise_gemini_key");
+  if (clientGeminiKey) {
+    try {
+      const prompt = `You are AIRWISE, an AI Hyperlocal Air Quality Assistant for ${envData.location.name}. Current AQI is ${envData.air_quality.aqi} (${envData.air_quality.category}).
+User Query: "${message}"
+Answer the 3 questions: What should I do? Why? What difference will it make?
+Respond concisely in Markdown.`;
+
+      const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${clientGeminiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }]
+        })
+      });
+      if (gRes.ok) {
+        const gData = await gRes.json();
+        const text = gData.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          return {
+            answer_markdown: text,
+            actionable_cards: [
+              {
+                recommendation_id: `rec_gemini_${Date.now()}`,
+                category: "Health & Routine",
+                title: "Personalized Environmental Guidance",
+                priority: envData.air_quality.aqi > 200 ? "high" : "medium",
+                suggested_action: "Follow the protective steps detailed in the briefing.",
+                reasoning: `Telemetry indicates ${envData.air_quality.aqi} NAQI in ${envData.location.name}.`,
+                expected_benefit: "Reduces acute pulmonary micro-particulate absorption.",
+                confidence: 0.95,
+                data_sources: ["Google Gemini 2.5 Flash Direct", "Open-Meteo"],
+                limitations: "Microclimate variations may apply across neighborhoods."
+              }
+            ],
+            follow_up_suggestions: [
+              "Should I open my windows this morning?",
+              "How can I build a budget DIY air purifier?",
+              "What mask should I wear for commuting?"
+            ],
+            source: "Google Gemini 2.5 Flash (Direct Client Link)"
+          };
+        }
+      }
+    } catch (gErr) {
+      console.warn("Direct Gemini call failed, falling back to heuristics:", gErr);
+    }
   }
 
   // Client fallback conversational intelligence
