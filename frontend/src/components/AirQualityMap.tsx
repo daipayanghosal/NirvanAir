@@ -52,12 +52,16 @@ export const AirQualityMap: React.FC<AirQualityMapProps> = ({ envData }) => {
     });
 
     const marker = L.marker([lat, lon], { icon: stationIcon }).addTo(map);
+    const category = envData.air_quality.category;
+    const pm25Val = envData.air_quality.pollutants.pm2_5.value;
+    const freshness = envData.data_provenance.station.freshness_minutes;
+
     marker.bindPopup(`
       <div style="font-family: sans-serif; font-size: 12px; line-height: 1.4;">
         <strong style="color: #163323; display: block; margin-bottom: 2px;">${stationName}</strong>
-        <div>AQI: <strong style="color: ${color};">${aqi} (${envData.air_quality.category})</strong></div>
-        <div>PM2.5: <strong>${envData.air_quality.pollutants.pm2_5.value} µg/m³</strong></div>
-        <div style="color: #666; font-size: 10px; margin-top: 4px;">Updated: ${envData.data_provenance.station.freshness_minutes}m ago</div>
+        <div>AQI: <strong style="color: ${color};">${aqi} (${category})</strong></div>
+        <div>PM2.5: <strong>${pm25Val} µg/m³</strong></div>
+        <div style="color: #666; font-size: 10px; margin-top: 4px;">Updated: ${freshness}m ago</div>
       </div>
     `).openPopup();
 
@@ -73,7 +77,7 @@ export const AirQualityMap: React.FC<AirQualityMapProps> = ({ envData }) => {
       map.remove();
       mapInstanceRef.current = null;
     };
-  }, [lat, lon, aqi, color, stationName]);
+  }, [lat, lon, aqi, color, stationName, envData.air_quality.category, envData.air_quality.pollutants.pm2_5.value, envData.data_provenance.station.freshness_minutes]);
 
   return (
     <div className="relative rounded-2xl overflow-hidden border border-[#e2e8e0] shadow-xs">

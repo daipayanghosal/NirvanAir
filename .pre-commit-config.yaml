@@ -1,0 +1,31 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+
+  - repo: local
+    hooks:
+      - id: oxlint
+        name: oxlint static check
+        entry: npm run lint --prefix frontend
+        language: system
+        types: [javascript, ts, tsx]
+        pass_filenames: false
+
+      - id: typecheck
+        name: typescript strict typecheck
+        entry: npm run typecheck --prefix frontend
+        language: system
+        types: [ts, tsx]
+        pass_filenames: false
+
+      - id: test
+        name: unit test execution
+        entry: npm test
+        language: system
+        types: [ts, tsx]
+        pass_filenames: false

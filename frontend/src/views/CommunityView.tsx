@@ -9,7 +9,7 @@ import {
   BarChart3
 } from "lucide-react";
 import { SimulatorResults } from "../types";
-import { runSimulation } from "../services/api";
+import { runSimulation, runCommunityScenario } from "../services/api";
 
 interface CommunityViewProps {
   initialSimulatorData?: SimulatorResults | null;
@@ -24,7 +24,16 @@ export const CommunityView: React.FC<CommunityViewProps> = ({
   const [wasteComposting, setWasteComposting] = useState(25);
   const [energyConservation, setEnergyConservation] = useState(15);
   
-  const [simResults, setSimResults] = useState<SimulatorResults | null>(initialSimulatorData || null);
+  const [simResults, setSimResults] = useState<SimulatorResults>(() => {
+    if (initialSimulatorData) return initialSimulatorData;
+    return runCommunityScenario({
+      num_households: 100,
+      vehicle_reduction_percent: 20,
+      diesel_genset_reduction_percent: 30,
+      waste_composting_percent: 25,
+      energy_conservation_percent: 15
+    });
+  });
   const [simulating, setSimulating] = useState(false);
 
   const handleSimulate = async () => {
@@ -39,12 +48,6 @@ export const CommunityView: React.FC<CommunityViewProps> = ({
     setSimResults(results);
     setSimulating(false);
   };
-
-  React.useEffect(() => {
-    if (!simResults) {
-      handleSimulate();
-    }
-  }, []);
 
   return (
     <div className="space-y-6 pb-12">
