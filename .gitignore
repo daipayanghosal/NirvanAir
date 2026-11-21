@@ -15,6 +15,7 @@ venv/
 dist/
 build/
 .oxlintrc.json
+.pytest_cache/
 
 # IDE & OS
 .vscode/
