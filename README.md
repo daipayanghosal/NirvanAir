@@ -2,6 +2,9 @@
 > **Tagline:** Breathe smarter. Live sustainably.  
 > *Developed for the Google GenAI Innovation Challenge (PromptWars).*
 
+🌐 **Live Deployed Web Application:** [https://daipayanghosal.github.io/Airwise/](https://daipayanghosal.github.io/Airwise/)  
+📦 **GitHub Repository:** [https://github.com/daipayanghosal/Airwise](https://github.com/daipayanghosal/Airwise)
+
 ---
 
 ## 1. Product Vision & Overview
