@@ -27,3 +27,13 @@ Thumbs.db
 .agent/
 _agents/
 _agent/
+
+# Media & Demo Videos (Never track or upload video files)
+demo_video/
+demo_media/
+videos/
+*.mp4
+*.webm
+*.mov
+*.mkv
+*.avi
