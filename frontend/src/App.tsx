@@ -15,7 +15,7 @@ import { SettingsView } from "./views/SettingsView";
 import {
   EnvironmentalData,
   UserProfile,
-  AirwiseBriefing,
+  NirvanAirBriefing,
   DailyPlanSegment,
   SustainableSwap,
   SwapImpactResult
@@ -24,7 +24,7 @@ import {
   DEMO_DURGAPUR_DATA,
   DEFAULT_USER_PROFILE,
   fetchAirQualityData,
-  fetchAirwiseBriefing,
+  fetchNirvanAirBriefing,
   fetchDailyPlan,
   fetchSwaps,
   computeSwapImpact
@@ -41,7 +41,7 @@ export function App() {
   // User Profile State (persisted in localStorage)
   const [userProfile, setUserProfile] = useState<UserProfile>(() => {
     try {
-      const saved = localStorage.getItem("airwise_user_profile");
+      const saved = localStorage.getItem("nirvanair_user_profile");
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.warn("Failed to parse saved user profile:", e);
@@ -54,7 +54,7 @@ export function App() {
   const [aqiStandard, setAqiStandard] = useState<"NAQI" | "USEPA">("NAQI");
 
   // AI Briefing State
-  const [briefing, setBriefing] = useState<AirwiseBriefing | null>(null);
+  const [briefing, setBriefing] = useState<NirvanAirBriefing | null>(null);
   const [loadingBriefing, setLoadingBriefing] = useState<boolean>(false);
 
   // Daily Plan Segments
@@ -64,7 +64,7 @@ export function App() {
   const [swaps, setSwaps] = useState<SustainableSwap[]>([]);
   const [recordedSwapIds, setRecordedSwapIds] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem("airwise_recorded_swaps");
+      const saved = localStorage.getItem("nirvanair_recorded_swaps");
       if (saved) return JSON.parse(saved);
     } catch (e) {}
     return ["swap_commute_car_to_metro", "swap_mosquito_coil_to_liquid_vaporizer"];
@@ -73,17 +73,17 @@ export function App() {
 
   // Onboarding Modal State
   const [onboardingOpen, setOnboardingOpen] = useState<boolean>(() => {
-    return !localStorage.getItem("airwise_onboarded_completed");
+    return !localStorage.getItem("nirvanair_onboarded_completed");
   });
 
   // Save profile to localStorage whenever changed
   useEffect(() => {
-    localStorage.setItem("airwise_user_profile", JSON.stringify(userProfile));
+    localStorage.setItem("nirvanair_user_profile", JSON.stringify(userProfile));
   }, [userProfile]);
 
   // Save recorded swaps whenever changed
   useEffect(() => {
-    localStorage.setItem("airwise_recorded_swaps", JSON.stringify(recordedSwapIds));
+    localStorage.setItem("nirvanair_recorded_swaps", JSON.stringify(recordedSwapIds));
     computeSwapImpact(recordedSwapIds, 30).then(setImpactData);
   }, [recordedSwapIds]);
 
@@ -101,7 +101,7 @@ export function App() {
       
       // Concurrently trigger briefing and plan generation
       setLoadingBriefing(true);
-      fetchAirwiseBriefing(data, userProfile)
+      fetchNirvanAirBriefing(data, userProfile)
         .then(setBriefing)
         .finally(() => setLoadingBriefing(false));
 
@@ -137,7 +137,7 @@ export function App() {
 
   const handleCompleteOnboarding = (newProfile: UserProfile) => {
     setUserProfile(newProfile);
-    localStorage.setItem("airwise_onboarded_completed", "true");
+    localStorage.setItem("nirvanair_onboarded_completed", "true");
     loadEnvironmentalData(newProfile.latitude, newProfile.longitude, newProfile.location_name, isDemoMode);
   };
 
@@ -270,7 +270,7 @@ export function App() {
       <footer className="border-t border-[#e2e8e0] bg-white py-6 text-center text-xs text-gray-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex items-center space-x-2">
-            <span className="font-bold text-[#163323]">AIRWISE</span>
+            <span className="font-extrabold text-[#1e6b45] text-sm">NirvanAir</span>
             <span>•</span>
             <span>Breathe smarter. Live sustainably.</span>
           </div>

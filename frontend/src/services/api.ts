@@ -1,7 +1,7 @@
 import {
   EnvironmentalData,
   UserProfile,
-  AirwiseBriefing,
+  NirvanAirBriefing,
   DailyPlanSegment,
   SustainableSwap,
   SwapImpactResult,
@@ -346,10 +346,10 @@ export async function fetchAirQualityData(
   return DEMO_DURGAPUR_DATA;
 }
 
-export async function fetchAirwiseBriefing(
+export async function fetchNirvanAirBriefing(
   envData: EnvironmentalData,
   profile: UserProfile
-): Promise<AirwiseBriefing> {
+): Promise<NirvanAirBriefing> {
   try {
     const res = await fetch(`${API_BASE}/api/briefing`, {
       method: "POST",
@@ -383,7 +383,7 @@ export async function fetchAirwiseBriefing(
         benefit: "Filters >90% of sub-2.5 micron toxic aerosols."
       }
     ],
-    generated_by: "AIRWISE Environmental Intelligence Engine",
+    generated_by: "NirvanAir Environmental Intelligence Engine",
     timestamp: new Date().toISOString()
   };
 }
@@ -609,10 +609,10 @@ export async function sendChatMessage(
   }
 
   // Client-side direct Gemini call if user configured API key in Settings
-  const clientGeminiKey = localStorage.getItem("airwise_gemini_key");
+  const clientGeminiKey = localStorage.getItem("nirvanair_gemini_key");
   if (clientGeminiKey) {
     try {
-      const prompt = `You are AIRWISE, an AI Hyperlocal Air Quality Assistant for ${envData.location.name}. Current AQI is ${envData.air_quality.aqi} (${envData.air_quality.category}).
+      const prompt = `You are NirvanAir, an AI Hyperlocal Air Quality Assistant for ${envData.location.name}. Current AQI is ${envData.air_quality.aqi} (${envData.air_quality.category}).
 User Query: "${message}"
 Answer the 3 questions: What should I do? Why? What difference will it make?
 Respond concisely in Markdown.`;
@@ -685,7 +685,7 @@ Respond concisely in Markdown.`;
         "How can I protect my family on a limited budget?",
         "What mask should I wear for commuting?"
       ],
-      source: "AIRWISE Heuristic Engine (Offline Active)"
+      source: "NirvanAir Heuristic Engine (Offline Active)"
     };
   }
 
@@ -710,6 +710,6 @@ Respond concisely in Markdown.`;
       "How can I build a budget DIY air purifier?",
       "What is the cleanest way to commute today?"
     ],
-    source: "AIRWISE Heuristic Engine (Offline Active)"
+    source: "NirvanAir Heuristic Engine (Offline Active)"
   };
 }

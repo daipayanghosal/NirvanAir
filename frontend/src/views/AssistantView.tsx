@@ -23,14 +23,14 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
     {
       id: "welcome",
       role: "assistant",
-      content: `Hello! I am **AIRWISE**, your environmental intelligence assistant for **${envData.location.name}**.\n\nCurrent conditions: **${envData.air_quality.aqi} NAQI (${envData.air_quality.category})**, dominated by PM2.5 (${envData.air_quality.pollutants.pm2_5.value} µg/m³).\n\nAsk me anything about daily routines, mask efficacy, ventilation timing, budget air cleaning, or commuting safely today!`,
+      content: `Hello! I am **NirvanAir**, your environmental intelligence assistant for **${envData.location.name}**.\n\nCurrent conditions: **${envData.air_quality.aqi} NAQI (${envData.air_quality.category})**, dominated by PM2.5 (${envData.air_quality.pollutants.pm2_5.value} µg/m³).\n\nAsk me anything about daily routines, mask efficacy, ventilation timing, budget air cleaning, or commuting safely today!`,
       follow_up_suggestions: [
         "Is it safe to go jogging today?",
         "Should I open my windows this morning?",
         "How can I protect my family on a limited budget?",
         "Is an N95 mask useful during severe smog?"
       ],
-      source: "AIRWISE GenAI Core",
+      source: "NirvanAir GenAI Core",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -108,7 +108,7 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
             <Sparkles className="w-4 h-4 text-[#1e6b45]" />
             <span>Grounded Conversational Agent</span>
           </div>
-          <h1 className="m3-headline-small text-[#191d19]">AIRWISE AI Assistant</h1>
+          <h1 className="m3-headline-small text-[#191d19]">NirvanAir AI Assistant</h1>
           <p className="m3-body-small text-[#727972] mt-0.5">
             Powered by Google Gemini with live telemetry grounding for {envData.location.name} ({envData.air_quality.aqi} NAQI).
           </p>
@@ -159,7 +159,7 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
                     </div>
 
                     <div className="flex items-center justify-between text-[10px] mt-2.5 pt-1.5 border-t border-current/10 opacity-70">
-                      <span>{msg.source || (isUser ? "You" : "AIRWISE")}</span>
+                      <span>{msg.source || (isUser ? "You" : "NirvanAir")}</span>
                       <span>{msg.timestamp}</span>
                     </div>
                   </div>
@@ -240,7 +240,7 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
               </div>
               <div className="bg-[#ffffff] border border-[#c2c9bf]/40 p-4 rounded-[22px] rounded-tl-sm text-xs text-[#506353] flex items-center space-x-2">
                 <div className="w-4 h-4 border-2 border-[#1e6b45] border-t-transparent rounded-full animate-spin" />
-                <span>AIRWISE is reasoning with atmospheric telemetry & household profile...</span>
+                <span>NirvanAir is reasoning with atmospheric telemetry & household profile...</span>
               </div>
             </div>
           )}
@@ -259,7 +259,7 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
           >
             <input
               type="text"
-              placeholder="Ask AIRWISE (e.g. Is it safe to go jogging today? How to ventilate?)..."
+              placeholder="Ask NirvanAir (e.g. Is it safe to go jogging today? How to ventilate?)..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
@@ -274,7 +274,7 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
             </button>
           </form>
           <div className="text-[10px] text-[#727972] mt-2 text-center">
-            AIRWISE answers three questions for every recommendation: What should I do? Why? What difference will it make?
+            NirvanAir answers three questions for every recommendation: What should I do? Why? What difference will it make?
           </div>
         </div>
 

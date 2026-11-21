@@ -1,17 +1,17 @@
-# AIRWISE — AI-Powered Hyperlocal Air Quality & Sustainable Living Assistant
+# NirvanAir — AI-Powered Hyperlocal Air Quality & Sustainable Living Assistant
 > **Tagline:** Breathe smarter. Live sustainably.  
 > *Developed for the Google GenAI Innovation Challenge (PromptWars).*
 
-🌐 **Live Deployed Web Application:** [https://daipayanghosal.github.io/Airwise/](https://daipayanghosal.github.io/Airwise/)  
-📦 **GitHub Repository:** [https://github.com/daipayanghosal/Airwise](https://github.com/daipayanghosal/Airwise)
+🌐 **Live Deployed Web Application:** [https://daipayanghosal.github.io/NirvanAir/](https://daipayanghosal.github.io/NirvanAir/)  
+📦 **GitHub Repository:** [https://github.com/daipayanghosal/NirvanAir](https://github.com/daipayanghosal/NirvanAir)
 
 ---
 
 ## 1. Product Vision & Overview
 
-**AIRWISE** is an environmental intelligence and personal decision-support platform designed to help individuals, families, and communities navigate severe winter smog and urban air pollution. 
+**NirvanAir** is an environmental intelligence and personal decision-support platform designed to help individuals, families, and communities navigate severe winter smog and urban air pollution. 
 
-Unlike generic AQI monitors or superficial chatbots, AIRWISE synthesizes live atmospheric sensing, boundary-layer meteorology, and generative AI (Google Gemini 2.5) into actionable daily living strategies.
+Unlike generic AQI monitors or superficial chatbots, NirvanAir synthesizes live atmospheric sensing, boundary-layer meteorology, and generative AI (Google Gemini 2.5) into actionable daily living strategies.
 
 ### The Fundamental Guiding Principle
 Every recommendation answers three essential questions:
@@ -26,7 +26,7 @@ Every recommendation answers three essential questions:
 ### A. Home Dashboard (Hyperlocal Telemetry & Briefing)
 - **Real-time Observations:** Displays Indian NAQI (CPCB 6-category standard) or US EPA AQI, dominant pollutant, PM2.5, PM10, NO₂, SO₂, CO, and Ground-level Ozone.
 - **Atmospheric Physics:** Tracks boundary-layer thermal inversions, surface pressure, wind vectors, and relative humidity.
-- **Your Airwise Briefing:** AI-generated daily synthesis explaining current conditions, root causes of concern, demographic vulnerability warnings, and prioritized daily interventions.
+- **Your NirvanAir Briefing:** AI-generated daily synthesis explaining current conditions, root causes of concern, demographic vulnerability warnings, and prioritized daily interventions.
 - **24-Hour Diurnal Pollution Trend:** Interactive Recharts area chart annotating morning and evening smog inversion peaks.
 - **Hyperlocal Map:** Interactive Leaflet GIS mapping indicating the nearest ground monitoring station and airshed dispersion zone.
 - **Transparent Provenance:** Distinctly labels *Live Satellite & Ground Bridge* vs. *Realistic Winter Smog Baseline* data.
@@ -58,7 +58,7 @@ Every recommendation answers three essential questions:
 - Household configuration for infants/children, senior citizens, and members with diagnosed respiratory/cardiovascular sensitivities.
 - **School & Recess Decision Matrix:** Clear threshold-based rules for PE sports and classroom windows across NAQI ranges.
 - **Mask Efficacy Matrix:** Rigorous comparison between certified N95/FFP2 respirators (>95% filtration) vs surgical masks (30–50%) vs cloth masks (<15%).
-- **Prominent Medical Disclaimer:** Clarifies that AIRWISE is an informational assistant, not a diagnostic medical device.
+- **Prominent Medical Disclaimer:** Clarifies that NirvanAir is an informational assistant, not a diagnostic medical device.
 
 ### F. Community Impact & What-If Scenario Simulator
 - **What-If Neighborhood Simulator:** Interactive sliders allowing users to model changes across 10 to 1,000 households:
@@ -69,7 +69,7 @@ Every recommendation answers three essential questions:
 - Dynamic outputs: Vehicle-km avoided, fuel saved (L), CO₂ avoided (kg), PM2.5 soot prevented (kg), NOx avoided, and direct community ₹ savings.
 - **Scientific Integrity Guardrail:** Explicitly states that mass emission reductions reduce ground-level toxic exposure without implying an immediate, linear drop in regional station AQI numbers.
 
-### G. AIRWISE AI Assistant
+### G. NirvanAir AI Assistant
 - Conversational assistant powered by Google Gemini 2.5 Flash, grounded in current hyperlocal telemetry and household profiles.
 - Produces structured **Actionable Recommendation Cards** (with Priority, Suggested Action, Reasoning, Expected Benefit, Confidence, and Data Sources).
 - Features full fallback heuristics to ensure continuous availability even when offline or uncredentialed.
@@ -93,8 +93,8 @@ Every recommendation answers three essential questions:
 
 ### Step 1: Clone and Configure Environment
 ```bash
-git clone <repository_url>
-cd Airwise
+git clone https://github.com/daipayanghosal/NirvanAir.git
+cd NirvanAir
 
 # Copy environment variables
 cp .env.example .env
@@ -103,7 +103,7 @@ Open `.env` and optionally insert your Google Gemini API key:
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
-*(Note: If no Gemini API key is provided, AIRWISE automatically runs in its intelligent offline heuristic fallback mode without breaking).*
+*(Note: If no Gemini API key is provided, NirvanAir automatically runs in its intelligent offline heuristic fallback mode without breaking).*
 
 ### Step 2: Install Dependencies
 

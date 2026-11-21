@@ -105,7 +105,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-xl tracking-tight text-[#191d19]">AIRWISE</span>
+                <span className="font-extrabold text-xl tracking-tight text-[#191d19]">NirvanAir</span>
                 <span className="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-[#d3e8d4] text-[#0e1f13]">
                   M3 • Gemini
                 </span>

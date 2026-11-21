@@ -28,12 +28,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   onToggleAqiStandard,
   onResetAll
 }) => {
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem("nirvanair_gemini_key") || "");
   const [keySaved, setKeySaved] = useState(false);
 
   const handleSaveKey = () => {
     if (apiKey.trim()) {
-      localStorage.setItem("airwise_gemini_key", apiKey.trim());
+      localStorage.setItem("nirvanair_gemini_key", apiKey.trim());
       setKeySaved(true);
       setTimeout(() => setKeySaved(false), 3000);
     }
@@ -51,7 +51,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `airwise_export_${Date.now()}.json`;
+    a.download = `nirvanair_export_${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -91,7 +91,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
 
         <p className="m3-body-small text-[#424942] leading-relaxed">
-          AIRWISE runs with a secure server-side Gemini integration. If running locally without backend environment variables, you can provide your Google AI Studio Gemini API key below:
+          NirvanAir runs with a secure server-side Gemini integration. If running locally without backend environment variables, you can provide your Google AI Studio Gemini API key below:
         </p>
 
         <div className="flex flex-col sm:flex-row gap-2 max-w-xl">

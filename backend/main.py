@@ -13,7 +13,7 @@ from backend.services.air_quality import (
     get_naqi_category
 )
 from backend.services.gemini_service import (
-    generate_airwise_briefing,
+    generate_nirvanair_briefing,
     generate_ai_assistant_chat
 )
 from backend.services.planner_engine import generate_daily_plan
@@ -21,15 +21,15 @@ from backend.services.swap_engine import get_all_swaps, calculate_swap_impact
 from backend.services.simulator_engine import run_community_scenario
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("airwise_backend")
+logger = logging.getLogger("nirvanair_backend")
 
 app = FastAPI(
-    title="AIRWISE Environmental Intelligence API",
+    title="NirvanAir Environmental Intelligence API",
     description="Hyperlocal Air Quality & Sustainable Living Assistant Engine powered by Google Gemini",
     version="1.0.0"
 )
 
-# CORS configuration for local development and production
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -75,7 +75,7 @@ class SimulatorRequest(BaseModel):
 @app.get("/")
 async def root():
     return {
-        "app": "AIRWISE",
+        "app": "NirvanAir",
         "tagline": "Breathe smarter. Live sustainably.",
         "status": "online",
         "gemini_configured": bool(os.getenv("GEMINI_API_KEY") or GEMINI_API_KEY),
@@ -84,7 +84,7 @@ async def root():
 
 @app.get("/api/health")
 async def health_check():
-    return {"status": "healthy", "service": "airwise-engine"}
+    return {"status": "healthy", "service": "nirvanair-engine"}
 
 @app.get("/api/locations/search")
 async def search_cities(q: str = Query(..., min_length=2)):
@@ -109,9 +109,9 @@ async def get_daily_briefing(
     env_data: Dict[str, Any] = Body(...),
     user_profile: Optional[Dict[str, Any]] = Body(None)
 ):
-    """Generate 'Your Airwise Briefing' daily summary."""
+    """Generate 'Your NirvanAir Briefing' daily summary."""
     profile = user_profile or UserProfile().model_dump()
-    briefing = await generate_airwise_briefing(env_data, profile)
+    briefing = await generate_nirvanair_briefing(env_data, profile)
     return briefing
 
 @app.post("/api/planner")
@@ -153,7 +153,6 @@ async def chat_with_assistant(payload: ChatRequest):
     lon = profile.get("longitude", 87.3119)
     loc_name = profile.get("location_name", "Durgapur")
 
-    # If environmental data not passed, fetch it
     env_data = payload.environmental_data
     if not env_data:
         env_data = await get_consolidated_environmental_data(lat, lon, loc_name)

@@ -98,7 +98,7 @@ export interface PriorityAction {
   benefit: string;
 }
 
-export interface AirwiseBriefing {
+export interface NirvanAirBriefing {
   headline: string;
   summary: string;
   what_is_causing_concern: string;

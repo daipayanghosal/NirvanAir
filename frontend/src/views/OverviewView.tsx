@@ -22,13 +22,13 @@ import {
   ResponsiveContainer,
   ReferenceLine
 } from "recharts";
-import { EnvironmentalData, UserProfile, AirwiseBriefing } from "../types";
+import { EnvironmentalData, UserProfile, NirvanAirBriefing } from "../types";
 import { AirQualityMap } from "../components/AirQualityMap";
 
 interface OverviewViewProps {
   envData: EnvironmentalData;
   userProfile: UserProfile;
-  briefing: AirwiseBriefing | null;
+  briefing: NirvanAirBriefing | null;
   loadingBriefing: boolean;
   aqiStandard: "NAQI" | "USEPA";
   onNavigateTab: (tab: string) => void;
@@ -285,7 +285,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
 
       </div>
 
-      {/* 3. YOUR AIRWISE BRIEFING (M3 Tonal Deep Surface) */}
+      {/* 3. YOUR NIRVANAIR BRIEFING (M3 Tonal Deep Surface) */}
       <div className="bg-[#1e6b45] rounded-[32px] p-6 text-white shadow-sm border border-[#1e6b45]/60">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/15 mb-5 gap-2">
           <div className="flex items-center space-x-3">
@@ -293,7 +293,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
               <Sparkles className="w-5 h-5 text-[#1e6b45]" />
             </div>
             <div>
-              <h2 className="m3-title-large text-white">Your Airwise Briefing</h2>
+              <h2 className="m3-title-large text-white">Your NirvanAir Briefing</h2>
               <p className="text-xs text-[#bbf3cd]">
                 {briefing?.generated_by || "Google Gemini 2.5 Flash Grounded Inference"}
               </p>

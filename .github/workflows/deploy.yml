@@ -1,4 +1,4 @@
-name: Deploy AIRWISE to GitHub Pages
+name: Deploy NirvanAir to GitHub Pages
 
 on:
   push:

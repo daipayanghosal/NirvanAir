@@ -56,7 +56,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="m3-title-medium text-[#191d19]">Welcome to AIRWISE</span>
+                <span className="m3-title-medium text-[#191d19]">Welcome to NirvanAir</span>
                 <span className="text-[10px] bg-[#d3e8d4] text-[#0e1f13] px-2.5 py-0.5 rounded-full font-bold">
                   Step {step}/4
                 </span>
@@ -89,7 +89,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
               <div>
                 <h3 className="m3-title-small text-[#191d19] mb-1">Where do you live?</h3>
                 <p className="m3-body-small text-[#727972]">
-                  AIRWISE uses hyperlocal atmospheric modeling and local monitoring stations to assess ground-level smog.
+                  NirvanAir uses hyperlocal atmospheric modeling and local monitoring stations to assess ground-level smog.
                 </p>
               </div>
 
@@ -206,7 +206,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
               <div>
                 <h3 className="m3-title-small text-[#191d19] mb-1">Affordability & Equipment</h3>
                 <p className="m3-body-small text-[#727972]">
-                  AIRWISE prioritizes zero-cost and affordable interventions rather than expecting every family to buy expensive machines.
+                  NirvanAir prioritizes zero-cost and affordable interventions rather than expecting every family to buy expensive machines.
                 </p>
               </div>
 

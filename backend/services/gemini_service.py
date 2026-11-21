@@ -7,8 +7,8 @@ from backend.config import GEMINI_API_KEY
 
 logger = logging.getLogger(__name__)
 
-# System prompt defining AIRWISE persona, scientific guardrails, and ethics
-AIRWISE_SYSTEM_PROMPT = """You are AIRWISE, an elite AI-Powered Hyperlocal Environmental Intelligence & Sustainable Living Assistant.
+# System prompt defining NirvanAir persona, scientific guardrails, and ethics
+NIRVANAIR_SYSTEM_PROMPT = """You are NirvanAir, an elite AI-Powered Hyperlocal Environmental Intelligence & Sustainable Living Assistant.
 Tagline: "Breathe smarter. Live sustainably."
 
 Your core principle: EVERY recommendation must answer three essential questions:
@@ -38,21 +38,16 @@ def get_gemini_client():
         logger.warning(f"Could not initialize Google GenAI Client: {e}")
         return None
 
-def fallback_airwise_briefing(env_data: Dict[str, Any], user_profile: Dict[str, Any]) -> Dict[str, Any]:
+def fallback_nirvanair_briefing(env_data: Dict[str, Any], user_profile: Dict[str, Any]) -> Dict[str, Any]:
     """Deterministic fallback for daily briefing when Gemini is not configured or offline."""
     aq = env_data.get("air_quality", {})
     aqi = aq.get("aqi", 250)
     category = aq.get("category", "Poor")
     loc_name = env_data.get("location", {}).get("name", "your area")
     weather = env_data.get("weather", {})
-    temp = weather.get("temperature_c", 20)
     humidity = weather.get("relative_humidity", 70)
     wind_spd = weather.get("wind_speed_kmh", 5.0)
 
-    # Vulnerability check
-    vulnerabilities = user_profile.get("vulnerabilities", [])
-    has_vulnerable = len(vulnerabilities) > 0 or user_profile.get("has_children", False) or user_profile.get("has_elderly", False)
-    
     if aqi >= 301:
         concern = f"Severe winter smog inversion in {loc_name}. Low surface wind ({wind_spd} km/h) and high relative humidity ({humidity}%) are trapping fine particulate matter (PM2.5) near the ground."
         who_careful = "Children, senior citizens, and anyone with asthma, COPD, or cardiovascular conditions must avoid all outdoor exposure. Healthy adults should also avoid strenuous outdoor workouts."
@@ -87,18 +82,18 @@ def fallback_airwise_briefing(env_data: Dict[str, Any], user_profile: Dict[str, 
                 "benefit": "Saves an estimated 3.2 kg CO2e and 45g PM2.5 per 15km commute."
             }
         ],
-        "generated_by": "AIRWISE Deterministic Heuristic Core (Active Fallback)",
+        "generated_by": "NirvanAir Deterministic Heuristic Core (Active Fallback)",
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
-async def generate_airwise_briefing(env_data: Dict[str, Any], user_profile: Dict[str, Any]) -> Dict[str, Any]:
+async def generate_nirvanair_briefing(env_data: Dict[str, Any], user_profile: Dict[str, Any]) -> Dict[str, Any]:
     """Generate daily AI briefing using Google Gemini API or graceful heuristic fallback."""
     client = get_gemini_client()
     if not client:
-        return fallback_airwise_briefing(env_data, user_profile)
+        return fallback_nirvanair_briefing(env_data, user_profile)
     
     prompt = f"""
-Given the following environmental telemetry and user household profile, generate "Your Airwise Briefing".
+Given the following environmental telemetry and user household profile, generate "Your NirvanAir Briefing".
 Return strictly valid JSON matching this schema:
 {{
   "headline": "Short punchy summary string",
@@ -125,7 +120,7 @@ User Profile:
             model='gemini-2.5-flash',
             contents=prompt,
             config={
-                'system_instruction': AIRWISE_SYSTEM_PROMPT,
+                'system_instruction': NIRVANAIR_SYSTEM_PROMPT,
                 'response_mime_type': 'application/json',
                 'temperature': 0.2
             }
@@ -138,7 +133,7 @@ User Profile:
     except Exception as e:
         logger.warning(f"Gemini API call failed for briefing: {e}")
     
-    return fallback_airwise_briefing(env_data, user_profile)
+    return fallback_nirvanair_briefing(env_data, user_profile)
 
 async def generate_ai_assistant_chat(
     message: str,
@@ -154,7 +149,7 @@ async def generate_ai_assistant_chat(
         try:
             formatted_history = []
             if chat_history:
-                for msg in chat_history[-6:]: # keep last 6 turns
+                for msg in chat_history[-6:]:
                     role = "user" if msg.get("role") == "user" else "model"
                     formatted_history.append(f"{role.upper()}: {msg.get('content')}")
             
@@ -205,7 +200,7 @@ Respond in valid JSON with this structure:
                 model='gemini-2.5-flash',
                 contents=prompt,
                 config={
-                    'system_instruction': AIRWISE_SYSTEM_PROMPT,
+                    'system_instruction': NIRVANAIR_SYSTEM_PROMPT,
                     'response_mime_type': 'application/json',
                     'temperature': 0.3
                 }
@@ -296,10 +291,10 @@ Respond in valid JSON with this structure:
         md = (
             f"**Affordable Clean Air Interventions (Budget Mode):**\n\n"
             f"- **What you should do:**\n"
-            f"  1. Build a DIY HEPA Box (Corsi-Rosenthal principle) using a standard 12-inch or 16-inch domestic box fan and an MERV-13 or HEPA filter panel (~₹1,500 – ₹2,500 vs ₹15,000 for branded purifiers).\n"
+            f"  1. Build a DIY HEPA Box (Corsi-Rosenthal principle) using a standard 12-inch domestic box fan and a MERV-13/HEPA filter sheet (~₹1,800 vs ₹14,000 for branded purifiers).\n"
             f"  2. Wet-mop floors twice daily instead of dry sweeping (dry sweeping resuspends toxic settled PM10).\n"
             f"  3. Hang thick, damp curtains over window mesh during peak smog hours to catch coarser particulates.\n"
-            f"  4. Eliminate incense (agarbatti), mosquito coils, and scented candles (one mosquito coil emits PM2.5 equivalent to 75–100 cigarettes).\n"
+            f"  4. Eliminate incense (agarbatti), mosquito coils, and scented candles.\n"
             f"- **Why you should do it:** Effective air purification requires high volumetric air movement through dense fibrous media, not luxury electronics.\n"
             f"- **What difference it will make:** Can lower indoor PM2.5 by 50–70% at a fraction of commercial costs."
         )
@@ -318,7 +313,7 @@ Respond in valid JSON with this structure:
 
     else:
         md = (
-            f"**Airwise Environmental Summary for {loc}:**\n\n"
+            f"**NirvanAir Environmental Summary for {loc}:**\n\n"
             f"The current Air Quality Index is **{aqi}** ({category}).\n\n"
             f"- **What you should do:** Minimize prolonged outdoor exertion, wear an N95 respirator during your commute, and keep indoor living areas sealed with filtered air.\n"
             f"- **Why you should do it:** Winter thermal inversion combined with local vehicular and industrial combustion concentrates particulate matter near ground level.\n"
@@ -346,5 +341,5 @@ Respond in valid JSON with this structure:
             "How can I protect my family on a limited budget?",
             "What is the cleanest way to commute today?"
         ],
-        "source": "AIRWISE Heuristic Engine (Fallback)"
+        "source": "NirvanAir Heuristic Engine (Fallback)"
     }

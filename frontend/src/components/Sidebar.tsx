@@ -68,7 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       id: "assistant",
-      label: "AIRWISE Assistant",
+      label: "NirvanAir Assistant",
       icon: Sparkles,
       description: "Gemini 2.5 advice",
       badge: "Gemini"

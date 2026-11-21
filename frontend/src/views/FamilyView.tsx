@@ -68,7 +68,7 @@ export const FamilyView: React.FC<FamilyViewProps> = ({
             <span>Medical Disclaimer</span>
           </div>
           <p className="text-[11px] leading-relaxed opacity-90">
-            AIRWISE is an informational decision-support platform, NOT a medical device. It does not diagnose diseases or prescribe clinical therapies.
+            NirvanAir is an informational decision-support platform, NOT a medical device. It does not diagnose diseases or prescribe clinical therapies.
           </p>
         </div>
       </div>
