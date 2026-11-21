@@ -32,6 +32,7 @@ _agent/
 demo_video/
 demo_media/
 videos/
+nirvanair_poster_16_9.png
 *.mp4
 *.webm
 *.mov
