@@ -27,75 +27,68 @@ export const Sidebar: React.FC<SidebarProps> = ({
     {
       id: "overview",
       label: "Home Dashboard",
-      shortLabel: "Overview",
       icon: LayoutDashboard,
-      description: "Hyperlocal conditions & AI briefing",
+      description: "Hyperlocal telemetry",
       badge: null
     },
     {
       id: "planner",
       label: "AI Daily Planner",
-      shortLabel: "Daily Plan",
       icon: CalendarCheck2,
-      description: "Personalized 24h routine",
+      description: "24h smog routine",
       badge: "Smart"
     },
     {
       id: "indoor",
       label: "Indoor Air Doctor",
-      shortLabel: "Indoor Air",
       icon: Home,
-      description: "HEPA, DIY filter & ventilation",
+      description: "DIY & ventilation",
       badge: null
     },
     {
       id: "swaps",
       label: "Sustainable Swaps",
-      shortLabel: "Swaps",
       icon: RefreshCw,
-      description: "Low-emission alternatives",
+      description: "Clean alternatives",
       badge: swapsCount > 0 ? `${swapsCount}` : "New"
     },
     {
       id: "family",
       label: "Family Protection",
-      shortLabel: "Family",
       icon: ShieldAlert,
-      description: "Children, seniors & vulnerable",
+      description: "Children & seniors",
       badge: null
     },
     {
       id: "community",
       label: "Community & What-If",
-      shortLabel: "Community",
       icon: Users2,
-      description: "Neighborhood impact simulator",
+      description: "Impact simulator",
       badge: "Simulator"
     },
     {
       id: "assistant",
       label: "AIRWISE Assistant",
-      shortLabel: "AI Chat",
       icon: Sparkles,
-      description: "Grounded conversational advice",
+      description: "Gemini 2.5 advice",
       badge: "Gemini"
     },
     {
       id: "settings",
-      label: "Settings & Profile",
-      shortLabel: "Settings",
+      label: "Settings & API",
       icon: Settings,
-      description: "Preferences & API keys",
+      description: "Preferences & keys",
       badge: null
     }
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-[#e2e8e0] min-h-[calc(100vh-4rem)] flex flex-col justify-between p-3 select-none">
+    <aside className="w-68 bg-[#f1f5ed] border-r border-[#c2c9bf]/40 min-h-[calc(100vh-4.5rem)] flex flex-col justify-between p-4 select-none">
       <div className="space-y-1">
-        <div className="px-3 py-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+        <div className="px-4 py-2 m3-label-medium text-[#506353] uppercase tracking-wider">
           Intelligence Modules
         </div>
+
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -103,42 +96,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               onClick={() => onSelectTab(item.id)}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-all group ${
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-full text-left transition-all relative ${
                 isActive
-                  ? "bg-[#163323] text-white shadow-sm font-semibold"
-                  : "text-gray-700 hover:bg-[#f3f7f4] hover:text-[#163323]"
+                  ? "bg-[#d3e8d4] text-[#0e1f13] font-bold shadow-xs"
+                  : "text-[#424942] hover:bg-[#ebf0e8] hover:text-[#191d19]"
               }`}
             >
-              <div className="flex items-center space-x-3 truncate">
+              <div className="flex items-center space-x-3.5 truncate">
                 <div
-                  className={`p-1.5 rounded-lg transition-colors ${
+                  className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
                     isActive
-                      ? "bg-[#254f38] text-white"
-                      : "bg-gray-100 text-gray-600 group-hover:bg-[#e4ede7] group-hover:text-[#163323]"
+                      ? "bg-[#1e6b45] text-white"
+                      : "bg-[#e5eae2] text-[#506353]"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
                 </div>
                 <div className="truncate">
-                  <div className="text-sm tracking-tight truncate leading-tight">{item.label}</div>
-                  <div
-                    className={`text-[10px] truncate leading-tight ${
-                      isActive ? "text-[#a2c9b0]" : "text-gray-400"
-                    }`}
-                  >
-                    {item.description}
-                  </div>
+                  <div className="m3-title-small truncate leading-tight">{item.label}</div>
+                  <div className="m3-body-small text-[#727972] truncate mt-0.5">{item.description}</div>
                 </div>
               </div>
 
               {item.badge && (
                 <span
-                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded ml-2 shrink-0 ${
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full ml-2 shrink-0 ${
                     isActive
-                      ? "bg-[#849974] text-white"
-                      : item.badge === "Simulator" || item.badge === "Gemini"
-                      ? "bg-[#eaf3ed] text-[#163323]"
-                      : "bg-gray-100 text-gray-600"
+                      ? "bg-[#1e6b45] text-white"
+                      : "bg-[#ebf0e8] text-[#506353]"
                   }`}
                 >
                   {item.badge}
@@ -149,27 +134,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
         })}
       </div>
 
-      {/* Sustainable Streak Footer Card */}
-      <div className="mt-4 p-3 bg-gradient-to-br from-[#f2f7f3] to-[#eaf3ed] rounded-xl border border-[#d6e5d9]">
-        <div className="flex items-center space-x-2 mb-1.5">
-          <div className="p-1 rounded-md bg-[#163323] text-amber-400">
-            <Flame className="w-3.5 h-3.5 fill-amber-400" />
+      {/* M3 Tonal Surface Card for Impact Streak */}
+      <div className="mt-6 p-4.5 rounded-[24px] bg-[#ebf0e8] border border-[#c2c9bf]/50">
+        <div className="flex items-center space-x-2.5 mb-2">
+          <div className="w-7 h-7 rounded-full bg-[#1e6b45] text-amber-300 flex items-center justify-center">
+            <Flame className="w-4 h-4 fill-amber-300" />
           </div>
           <div>
-            <span className="text-xs font-bold text-[#163323]">Impact Score</span>
-            <span className="text-[10px] text-gray-500 block leading-none">Sustainable Living</span>
+            <span className="m3-title-small text-[#191d19] block">Impact Tracker</span>
+            <span className="m3-body-small text-[#727972] block">Sustainable Living</span>
           </div>
         </div>
-        <div className="text-xs text-gray-600 leading-snug mb-2">
+
+        <p className="m3-body-small text-[#424942] mb-3 leading-snug">
           {swapsCount > 0 ? (
-            <span>You have recorded <strong>{swapsCount}</strong> low-emission swaps this month!</span>
+            <span>You have logged <strong>{swapsCount}</strong> low-emission swaps this month!</span>
           ) : (
-            <span>Log everyday sustainable swaps to reduce personal and local emissions.</span>
+            <span>Log daily sustainable swaps to reduce personal and local emissions.</span>
           )}
-        </div>
+        </p>
+
         <button
           onClick={() => onSelectTab("swaps")}
-          className="w-full flex items-center justify-between text-[11px] font-semibold text-[#163323] bg-white px-2.5 py-1.5 rounded-lg border border-[#c9dcd0] hover:bg-[#163323] hover:text-white transition-colors"
+          className="w-full flex items-center justify-between m3-label-small text-[#1e6b45] bg-[#ffffff] hover:bg-[#d3e8d4] px-3.5 py-2 rounded-full font-bold transition-colors shadow-2xs"
         >
           <span>Explore Swaps</span>
           <ChevronRight className="w-3.5 h-3.5" />

@@ -6,11 +6,9 @@ import {
   Crosshair,
   Sliders,
   Sparkles,
-  Info,
-  CheckCircle2,
-  AlertTriangle,
   Menu,
-  X
+  X,
+  ChevronDown
 } from "lucide-react";
 import { EnvironmentalData, UserProfile } from "../types";
 
@@ -30,7 +28,6 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({
   envData,
-  userProfile,
   onUpdateLocation,
   onOpenSettings,
   onOpenOnboarding,
@@ -38,7 +35,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleDemoMode,
   aqiStandard,
   onToggleAqiStandard,
-  activeTab,
   onSelectTab
 }) => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -48,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const presets = [
-    { name: "Durgapur", lat: 23.5204, lon: 87.3119, label: "Durgapur (Demo)" },
+    { name: "Durgapur", lat: 23.5204, lon: 87.3119, label: "Durgapur" },
     { name: "New Delhi", lat: 28.6139, lon: 77.2090, label: "Delhi" },
     { name: "Kolkata", lat: 22.5726, lon: 88.3639, label: "Kolkata" },
     { name: "Mumbai", lat: 19.0760, lon: 72.8777, label: "Mumbai" },
@@ -75,19 +71,13 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleDetectLocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
-        async (position) => {
+        (position) => {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
-          try {
-            // Reverse geocode via open-meteo or nominatim
-            onUpdateLocation("Detected Location", lat, lon);
-            setSearchOpen(false);
-          } catch (e) {
-            onUpdateLocation("My Location", lat, lon);
-            setSearchOpen(false);
-          }
+          onUpdateLocation("My Location", lat, lon);
+          setSearchOpen(false);
         },
-        (error) => {
+        () => {
           alert("Could not retrieve GPS location. Please select a city manually.");
         }
       );
@@ -101,51 +91,54 @@ export const Navbar: React.FC<NavbarProps> = ({
   const aqiColor = envData.air_quality.color;
 
   return (
-    <header className="sticky top-0 z-40 bg-[#163323] text-white border-b border-[#244b35] shadow-sm">
+    <header className="sticky top-0 z-40 bg-[#f1f5ed]/95 backdrop-blur-md border-b border-[#c2c9bf]/40 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-18">
           
-          {/* Brand Logo & Tagline */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => onSelectTab("overview")}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#849974] to-[#406850] flex items-center justify-center shadow-inner">
-              <Wind className="w-6 h-6 text-white" />
+          {/* M3 Brand Logo */}
+          <div
+            className="flex items-center space-x-3 cursor-pointer group"
+            onClick={() => onSelectTab("overview")}
+          >
+            <div className="w-11 h-11 rounded-2xl bg-[#bbf3cd] text-[#002111] flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
+              <Wind className="w-6 h-6 text-[#1e6b45]" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-bold text-xl tracking-tight text-white">AIRWISE</span>
-                <span className="text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded bg-[#244b35] text-[#b6d4be]">
-                  GenAI 2.5
+                <span className="font-extrabold text-xl tracking-tight text-[#191d19]">AIRWISE</span>
+                <span className="text-[11px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full bg-[#d3e8d4] text-[#0e1f13]">
+                  M3 • Gemini
                 </span>
               </div>
-              <p className="text-xs text-[#b0c8b6] hidden sm:block">Breathe smarter. Live sustainably.</p>
+              <p className="text-[11px] text-[#424942] hidden sm:block font-medium">Breathe smarter. Live sustainably.</p>
             </div>
           </div>
 
-          {/* Location Selector & Quick Presets */}
+          {/* M3 Search & Location Pill */}
           <div className="hidden md:flex items-center space-x-2">
             <div className="relative">
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-[#1f422e] hover:bg-[#28553c] border border-[#2d5c42] text-sm text-[#e4ede6] transition-colors"
-                title="Change Location"
+                className="flex items-center space-x-2 px-4 py-2 rounded-full bg-[#ebf0e8] hover:bg-[#dfe5dc] border border-[#c2c9bf]/60 text-xs text-[#191d19] font-medium transition-all"
               >
-                <MapPin className="w-4 h-4 text-[#8ec59f]" />
-                <span className="font-medium max-w-[140px] truncate">{envData.location.name}</span>
-                <span className="text-xs text-[#a0c2ab] bg-[#163323] px-1.5 py-0.5 rounded">
-                  {envData.location.state || "WB"}
+                <MapPin className="w-4 h-4 text-[#1e6b45]" />
+                <span className="font-bold max-w-[130px] truncate">{envData.location.name}</span>
+                <span className="text-[11px] text-[#506353] bg-[#d3e8d4] px-2 py-0.5 rounded-full font-semibold">
+                  {envData.location.state || "IN"}
                 </span>
+                <ChevronDown className="w-3.5 h-3.5 text-[#727972]" />
               </button>
 
-              {/* Location Search Dropdown Modal */}
+              {/* M3 Search Surface Container Modal */}
               {searchOpen && (
-                <div className="absolute left-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 text-gray-800 p-4 z-50 animate-in fade-in slide-in-from-top-2">
-                  <div className="flex items-center justify-between pb-2 border-b border-gray-100 mb-3">
-                    <span className="font-semibold text-sm text-gray-900">Select City or Coordinates</span>
+                <div className="absolute left-0 mt-2 w-88 bg-[#f7fbf3] rounded-[28px] shadow-xl border border-[#c2c9bf]/50 p-5 z-50 animate-in fade-in zoom-in-95">
+                  <div className="flex items-center justify-between pb-2 mb-3">
+                    <span className="m3-title-small text-[#191d19]">Choose Location</span>
                     <button
                       onClick={() => setSearchOpen(false)}
-                      className="text-gray-400 hover:text-gray-600 text-xs"
+                      className="w-7 h-7 rounded-full hover:bg-[#ebf0e8] flex items-center justify-center text-[#424942]"
                     >
-                      Close
+                      <X className="w-4 h-4" />
                     </button>
                   </div>
 
@@ -153,29 +146,27 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <div className="relative">
                       <input
                         type="text"
-                        placeholder="Search city (e.g., Durgapur, Delhi)..."
+                        placeholder="Search city, district, or pin..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-9 pr-3 py-1.5 text-sm bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#28553c]"
+                        className="w-full pl-10 pr-4 py-2.5 text-xs bg-[#ebf0e8] border border-transparent focus:border-[#1e6b45] rounded-full focus:outline-none text-[#191d19]"
                       />
-                      <Search className="w-4 h-4 text-gray-400 absolute left-2.5 top-2.5" />
+                      <Search className="w-4 h-4 text-[#727972] absolute left-3.5 top-3" />
                     </div>
                   </form>
 
-                  {/* Detect GPS */}
                   <button
                     onClick={handleDetectLocation}
-                    className="w-full flex items-center justify-center space-x-2 py-1.5 px-3 bg-[#eaf3ed] hover:bg-[#dbeee0] text-[#163323] text-xs font-semibold rounded-lg mb-3 transition-colors"
+                    className="w-full flex items-center justify-center space-x-2 py-2 px-4 bg-[#bbf3cd] hover:bg-[#a6e6b9] text-[#002111] text-xs font-bold rounded-full mb-3 transition-colors shadow-xs"
                   >
                     <Crosshair className="w-3.5 h-3.5" />
-                    <span>Use My Current Device Location</span>
+                    <span>Detect Device Location (GPS)</span>
                   </button>
 
-                  {/* Search Results */}
-                  {searching && <p className="text-xs text-gray-500 text-center py-2">Searching locations...</p>}
+                  {searching && <p className="text-xs text-[#727972] text-center py-2">Searching cities...</p>}
                   {searchResults.length > 0 && (
                     <div className="mb-3 max-h-36 overflow-y-auto space-y-1">
-                      <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Search Results</p>
+                      <p className="text-[10px] font-bold text-[#727972] uppercase tracking-wider">Search Results</p>
                       {searchResults.map((item, idx) => (
                         <button
                           key={idx}
@@ -185,18 +176,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                             setSearchResults([]);
                             setSearchQuery("");
                           }}
-                          className="w-full text-left px-2 py-1.5 text-xs hover:bg-gray-100 rounded flex justify-between items-center"
+                          className="w-full text-left px-3 py-2 text-xs hover:bg-[#ebf0e8] rounded-2xl flex justify-between items-center"
                         >
-                          <span className="font-medium text-gray-800">{item.name}</span>
-                          <span className="text-gray-400 text-[10px]">{item.admin1 || item.country}</span>
+                          <span className="font-semibold text-[#191d19]">{item.name}</span>
+                          <span className="text-[#506353] text-[11px]">{item.admin1 || item.country}</span>
                         </button>
                       ))}
                     </div>
                   )}
 
-                  {/* Quick Presets */}
                   <div>
-                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Preset Hubs</p>
+                    <p className="text-[10px] font-bold text-[#727972] uppercase tracking-wider mb-2">Preset Hubs</p>
                     <div className="grid grid-cols-2 gap-1.5">
                       {presets.map((p) => (
                         <button
@@ -205,10 +195,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                             onUpdateLocation(p.name, p.lat, p.lon);
                             setSearchOpen(false);
                           }}
-                          className={`text-xs px-2.5 py-1 rounded text-left transition-colors flex items-center space-x-1.5 ${
+                          className={`text-xs px-3 py-1.5 rounded-full text-left transition-all ${
                             envData.location.name === p.name
-                              ? "bg-[#163323] text-white font-medium"
-                              : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                              ? "bg-[#1e6b45] text-white font-bold shadow-xs"
+                              : "bg-[#ebf0e8] hover:bg-[#dfe5dc] text-[#191d19] font-medium"
                           }`}
                         >
                           <span className="truncate">{p.label}</span>
@@ -220,16 +210,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
-            {/* Quick preset chips */}
-            <div className="hidden lg:flex items-center space-x-1">
+            {/* M3 Assist Chips for fast switching */}
+            <div className="hidden lg:flex items-center space-x-1.5">
               {presets.slice(0, 3).map((p) => (
                 <button
                   key={p.name}
                   onClick={() => onUpdateLocation(p.name, p.lat, p.lon)}
-                  className={`text-xs px-2.5 py-1 rounded-md transition-colors ${
+                  className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
                     envData.location.name === p.name
-                      ? "bg-[#29563c] text-white font-medium"
-                      : "text-[#b0c8b6] hover:bg-[#1f422e]"
+                      ? "bg-[#1e6b45] border-[#1e6b45] text-white font-bold shadow-xs"
+                      : "bg-[#f7fbf3] border-[#c2c9bf] text-[#424942] hover:bg-[#ebf0e8]"
                   }`}
                 >
                   {p.name}
@@ -238,78 +228,73 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
 
-          {/* Right Section: AQI Badge, Mode Toggle, Settings */}
-          <div className="flex items-center space-x-3">
+          {/* Right Section: M3 AQI Pill, Toggles, Profile */}
+          <div className="flex items-center space-x-2.5">
             
-            {/* Live AQI Badge */}
+            {/* M3 Elevated AQI Badge */}
             <div
-              className="flex items-center space-x-2 px-3 py-1 rounded-lg border"
+              className="flex items-center space-x-2 px-3 py-1.5 rounded-full shadow-xs"
               style={{
-                backgroundColor: `${aqiColor}20`,
-                borderColor: `${aqiColor}60`
+                backgroundColor: `${aqiColor}18`,
+                border: `1.5px solid ${aqiColor}55`
               }}
-              title={`Dominant Pollutant: ${envData.air_quality.dominant_pollutant}`}
             >
               <span className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ backgroundColor: aqiColor }} />
-              <div className="text-right">
-                <div className="flex items-baseline space-x-1">
-                  <span className="font-extrabold text-sm text-white">{aqiValue}</span>
-                  <span className="text-[10px] text-[#c7ded0] font-medium">{aqiStandard}</span>
-                </div>
+              <div className="flex items-baseline space-x-1">
+                <span className="font-black text-sm text-[#191d19]">{aqiValue}</span>
+                <span className="text-[10px] text-[#506353] font-semibold">{aqiStandard}</span>
               </div>
               <span
-                className="text-[11px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded text-white"
+                className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full text-white"
                 style={{ backgroundColor: aqiColor }}
               >
                 {aqiCategory}
               </span>
             </div>
 
-            {/* Demo vs Live Mode Indicator */}
+            {/* M3 Mode Toggle Chip */}
             <button
               onClick={() => onToggleDemoMode(!isDemoMode)}
-              className={`hidden sm:flex items-center space-x-1 px-2.5 py-1 rounded-md text-xs font-medium border transition-colors ${
+              className={`hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${
                 isDemoMode
-                  ? "bg-amber-900/40 border-amber-600/60 text-amber-300 hover:bg-amber-900/60"
-                  : "bg-[#1f422e] border-[#2d5c42] text-[#c5e1ce] hover:bg-[#28553c]"
+                  ? "bg-[#ffdad6] border-[#ba1a1a]/30 text-[#410002]"
+                  : "bg-[#d3e8d4] border-[#1e6b45]/30 text-[#0e1f13]"
               }`}
-              title={isDemoMode ? "Currently showing Durgapur winter baseline demo dataset" : "Currently connected to live atmospheric sensing"}
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${isDemoMode ? "bg-amber-400" : "bg-emerald-400"}`} />
-              <span>{isDemoMode ? "Demo Mode" : "Live Sensing"}</span>
+              <span className={`w-2 h-2 rounded-full ${isDemoMode ? "bg-[#ba1a1a]" : "bg-[#1e6b45]"}`} />
+              <span>{isDemoMode ? "Demo Mode" : "Live Feed"}</span>
             </button>
 
-            {/* Scale toggle (NAQI vs US EPA) */}
+            {/* M3 Segmented Button for AQI scale */}
             <button
               onClick={() => onToggleAqiStandard(aqiStandard === "NAQI" ? "USEPA" : "NAQI")}
-              className="hidden md:flex text-xs px-2 py-1 rounded bg-[#1f422e] hover:bg-[#28553c] text-[#c0dbca] border border-[#2d5c42]"
-              title="Toggle between Indian NAQI and US EPA AQI standard"
+              className="hidden md:flex text-xs px-3 py-1.5 rounded-full bg-[#ebf0e8] hover:bg-[#dfe5dc] text-[#191d19] font-bold border border-[#c2c9bf]/60 transition-colors"
             >
               {aqiStandard}
             </button>
 
-            {/* Onboarding Wizard trigger */}
+            {/* M3 Filled Tonal Button for Profile */}
             <button
               onClick={onOpenOnboarding}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-[#849974] hover:bg-[#96ac85] text-white text-xs font-semibold shadow-sm transition-all"
+              className="flex items-center space-x-1.5 px-4 py-2 rounded-full bg-[#1e6b45] hover:bg-[#155335] text-white text-xs font-bold shadow-xs transition-transform active:scale-95"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">My Profile</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#bbf3cd]" />
+              <span className="hidden sm:inline">Household</span>
             </button>
 
-            {/* Settings button */}
+            {/* M3 Circular Icon Button for Settings */}
             <button
               onClick={onOpenSettings}
-              className="p-1.5 rounded-lg bg-[#1f422e] hover:bg-[#28553c] text-[#c5e1ce] transition-colors"
-              title="Settings & Data Configuration"
+              className="w-10 h-10 rounded-full bg-[#ebf0e8] hover:bg-[#dfe5dc] text-[#191d19] flex items-center justify-center transition-colors"
+              title="Settings & API"
             >
               <Sliders className="w-4 h-4" />
             </button>
 
-            {/* Mobile menu button */}
+            {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-lg bg-[#1f422e] text-white"
+              className="md:hidden w-10 h-10 rounded-full bg-[#ebf0e8] text-[#191d19] flex items-center justify-center"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -317,35 +302,35 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#122b1d] border-t border-[#244b35] px-4 pt-3 pb-4 space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b border-[#244b35]">
-            <span className="text-xs text-[#a0c2ab]">Location: {envData.location.name}</span>
+        <div className="md:hidden bg-[#f1f5ed] border-t border-[#c2c9bf]/40 px-4 py-4 space-y-3 animate-in fade-in">
+          <div className="flex items-center justify-between pb-2 border-b border-[#c2c9bf]/30">
+            <span className="text-xs text-[#506353]">Location: <strong>{envData.location.name}</strong></span>
             <button
               onClick={() => {
                 setSearchOpen(true);
                 setMobileMenuOpen(false);
               }}
-              className="text-xs text-emerald-400 font-semibold"
+              className="text-xs text-[#1e6b45] font-bold"
             >
               Change Location
             </button>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#a0c2ab]">Data Feed:</span>
+            <span className="text-xs text-[#506353]">Telemetry Feed:</span>
             <button
               onClick={() => onToggleDemoMode(!isDemoMode)}
-              className="text-xs px-2 py-1 rounded bg-[#1f422e] text-white"
+              className="text-xs px-3 py-1 rounded-full bg-[#ebf0e8] text-[#191d19] font-bold"
             >
               {isDemoMode ? "Demo Mode (Durgapur)" : "Live Sensing"}
             </button>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#a0c2ab]">AQI Scale:</span>
+            <span className="text-xs text-[#506353]">Standard:</span>
             <button
               onClick={() => onToggleAqiStandard(aqiStandard === "NAQI" ? "USEPA" : "NAQI")}
-              className="text-xs px-2 py-1 rounded bg-[#1f422e] text-white"
+              className="text-xs px-3 py-1 rounded-full bg-[#ebf0e8] text-[#191d19] font-bold"
             >
               {aqiStandard === "NAQI" ? "Indian NAQI (CPCB)" : "US EPA Standard"}
             </button>

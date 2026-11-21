@@ -4,16 +4,10 @@ import {
   Send,
   User,
   Bot,
-  AlertCircle,
   CheckCircle2,
-  HelpCircle,
-  Compass,
-  ShieldAlert,
-  Info,
-  Layers,
   ArrowRight
 } from "lucide-react";
-import { EnvironmentalData, UserProfile, ChatMessage, ActionableCard } from "../types";
+import { EnvironmentalData, UserProfile, ChatMessage } from "../types";
 import { sendChatMessage } from "../services/api";
 
 interface AssistantViewProps {
@@ -108,29 +102,29 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
     <div className="space-y-4 pb-12">
       
       {/* Header */}
-      <div className="bg-white rounded-2xl p-6 border border-[#e2e8e0] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="bg-[#ffffff] rounded-[28px] p-6 border border-[#c2c9bf]/40 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center space-x-2 text-xs font-bold text-[#163323] uppercase tracking-wider mb-1">
-            <Sparkles className="w-4 h-4 text-emerald-600" />
+          <div className="flex items-center space-x-2 m3-label-medium text-[#1e6b45] uppercase tracking-wider mb-1">
+            <Sparkles className="w-4 h-4 text-[#1e6b45]" />
             <span>Grounded Conversational Agent</span>
           </div>
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">AIRWISE Environmental AI Assistant</h1>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <h1 className="m3-headline-small text-[#191d19]">AIRWISE AI Assistant</h1>
+          <p className="m3-body-small text-[#727972] mt-0.5">
             Powered by Google Gemini with live telemetry grounding for {envData.location.name} ({envData.air_quality.aqi} NAQI).
           </p>
         </div>
 
-        <div className="flex items-center space-x-2 text-xs bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 text-emerald-900 font-semibold self-start sm:self-auto">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+        <div className="flex items-center space-x-2 text-xs bg-[#d3e8d4] px-4 py-2 rounded-full text-[#0e1f13] font-bold self-start sm:self-auto">
+          <span className="w-2 h-2 rounded-full bg-[#1e6b45] animate-pulse" />
           <span>Context Grounded (Live Sensors)</span>
         </div>
       </div>
 
       {/* Chat Messages Container */}
-      <div className="bg-white rounded-2xl border border-[#e2e8e0] shadow-xs flex flex-col h-[600px] overflow-hidden">
+      <div className="bg-[#ffffff] rounded-[32px] border border-[#c2c9bf]/40 shadow-xs flex flex-col h-[600px] overflow-hidden">
         
         {/* Messages Scroll Area */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 bg-[#f7fbf3]">
           {messages.map((msg) => {
             const isUser = msg.role === "user";
             return (
@@ -140,77 +134,76 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
               >
                 {/* Avatar */}
                 <div
-                  className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                  className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
                     isUser
-                      ? "bg-[#163323] text-white"
-                      : "bg-gradient-to-br from-[#849974] to-[#3a5d47] text-white shadow-xs"
+                      ? "bg-[#1e6b45] text-white"
+                      : "bg-[#d3e8d4] text-[#0e1f13]"
                   }`}
                 >
-                  {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                  {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4 text-[#1e6b45]" />}
                 </div>
 
-                {/* Message Body */}
-                <div className={`max-w-[85%] sm:max-w-[75%] space-y-2`}>
+                {/* Message Bubble */}
+                <div className="max-w-[85%] sm:max-w-[75%] space-y-2">
                   <div
-                    className={`p-4 rounded-2xl text-xs sm:text-sm leading-relaxed ${
+                    className={`p-4.5 rounded-[24px] text-xs sm:text-sm leading-relaxed ${
                       isUser
-                        ? "bg-[#163323] text-white rounded-tr-none"
-                        : "bg-[#f8faf8] border border-[#e2e8e0] text-gray-800 rounded-tl-none"
+                        ? "bg-[#1e6b45] text-white rounded-tr-sm shadow-xs"
+                        : "bg-[#ffffff] border border-[#c2c9bf]/40 text-[#191d19] rounded-tl-sm shadow-2xs"
                     }`}
                   >
-                    {/* Markdown rendering with paragraphs & bullet points */}
                     <div className="space-y-2 whitespace-pre-wrap">
                       {msg.content.split("\n\n").map((para, i) => (
                         <p key={i}>{para}</p>
                       ))}
                     </div>
 
-                    <div className="flex items-center justify-between text-[10px] mt-2 pt-1 border-t border-current/10 opacity-70">
+                    <div className="flex items-center justify-between text-[10px] mt-2.5 pt-1.5 border-t border-current/10 opacity-70">
                       <span>{msg.source || (isUser ? "You" : "AIRWISE")}</span>
                       <span>{msg.timestamp}</span>
                     </div>
                   </div>
 
-                  {/* Render Actionable Cards if returned by Gemini */}
+                  {/* Render Actionable Cards */}
                   {msg.actionable_cards && msg.actionable_cards.length > 0 && (
                     <div className="space-y-2 pt-1">
                       {msg.actionable_cards.map((card, idx) => (
                         <div
                           key={idx}
-                          className="bg-white rounded-xl p-3.5 border border-[#cbe0d1] shadow-2xs space-y-2 text-xs"
+                          className="bg-[#ffffff] rounded-[22px] p-4 border border-[#1e6b45]/30 shadow-2xs space-y-2 text-xs"
                         >
                           <div className="flex items-center justify-between">
-                            <span className="font-bold text-[#163323] text-xs flex items-center space-x-1.5">
-                              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                            <span className="font-bold text-[#191d19] text-xs flex items-center space-x-1.5">
+                              <CheckCircle2 className="w-4 h-4 text-[#1e6b45]" />
                               <span>{card.title}</span>
                             </span>
-                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
+                            <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
                               card.priority === "critical"
-                                ? "bg-red-50 text-red-700 border border-red-200"
+                                ? "bg-[#ffdad6] text-[#ba1a1a]"
                                 : card.priority === "high"
-                                ? "bg-amber-50 text-amber-700 border border-amber-200"
-                                : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                                ? "bg-amber-100 text-amber-900"
+                                : "bg-[#d3e8d4] text-[#0e1f13]"
                             }`}>
                               {card.priority} Priority
                             </span>
                           </div>
 
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-gray-50 p-2.5 rounded-lg border border-gray-100">
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-[#f1f5ed] p-3 rounded-2xl border border-[#c2c9bf]/30">
                             <div>
-                              <strong className="text-[10px] uppercase text-gray-400 block">Suggested Action</strong>
-                              <span className="text-gray-900 font-semibold">{card.suggested_action}</span>
+                              <strong className="text-[10px] uppercase text-[#727972] block">Suggested Action</strong>
+                              <span className="text-[#191d19] font-bold">{card.suggested_action}</span>
                             </div>
                             <div>
-                              <strong className="text-[10px] uppercase text-gray-400 block">Reasoning</strong>
-                              <span className="text-gray-700">{card.reasoning}</span>
+                              <strong className="text-[10px] uppercase text-[#727972] block">Reasoning</strong>
+                              <span className="text-[#424942]">{card.reasoning}</span>
                             </div>
                             <div>
-                              <strong className="text-[10px] uppercase text-emerald-700 block">Expected Benefit</strong>
-                              <span className="text-emerald-950 font-semibold">{card.expected_benefit}</span>
+                              <strong className="text-[10px] uppercase text-[#1e6b45] block">Expected Benefit</strong>
+                              <span className="text-[#0e1f13] font-bold">{card.expected_benefit}</span>
                             </div>
                           </div>
 
-                          <div className="flex items-center justify-between text-[10px] text-gray-400 pt-1">
+                          <div className="flex items-center justify-between text-[10px] text-[#727972] pt-1">
                             <span>Confidence: {Math.round(card.confidence * 100)}%</span>
                             <span>Sources: {card.data_sources.join(", ")}</span>
                           </div>
@@ -226,10 +219,10 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
                         <button
                           key={idx}
                           onClick={() => handleSend(chip)}
-                          className="text-[11px] font-medium px-2.5 py-1 bg-white hover:bg-[#eaf3ed] text-[#163323] border border-[#cbe0d1] rounded-full transition-colors flex items-center space-x-1"
+                          className="text-[11px] font-bold px-3 py-1.5 bg-[#ffffff] hover:bg-[#d3e8d4] text-[#191d19] border border-[#c2c9bf]/60 rounded-full transition-all flex items-center space-x-1 shadow-2xs"
                         >
                           <span>{chip}</span>
-                          <ArrowRight className="w-3 h-3 text-emerald-600" />
+                          <ArrowRight className="w-3 h-3 text-[#1e6b45]" />
                         </button>
                       ))}
                     </div>
@@ -242,11 +235,11 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
 
           {loading && (
             <div className="flex items-start space-x-3">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#849974] to-[#3a5d47] text-white flex items-center justify-center shrink-0 animate-pulse">
-                <Bot className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-full bg-[#d3e8d4] text-[#0e1f13] flex items-center justify-center shrink-0 animate-pulse">
+                <Bot className="w-4 h-4 text-[#1e6b45]" />
               </div>
-              <div className="bg-[#f8faf8] border border-gray-200 p-3 rounded-2xl rounded-tl-none text-xs text-gray-500 flex items-center space-x-2">
-                <div className="w-4 h-4 border-2 border-[#163323] border-t-transparent rounded-full animate-spin" />
+              <div className="bg-[#ffffff] border border-[#c2c9bf]/40 p-4 rounded-[22px] rounded-tl-sm text-xs text-[#506353] flex items-center space-x-2">
+                <div className="w-4 h-4 border-2 border-[#1e6b45] border-t-transparent rounded-full animate-spin" />
                 <span>AIRWISE is reasoning with atmospheric telemetry & household profile...</span>
               </div>
             </div>
@@ -256,7 +249,7 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
         </div>
 
         {/* Input Bar */}
-        <div className="p-3 sm:p-4 bg-gray-50 border-t border-gray-200">
+        <div className="p-3.5 sm:p-5 bg-[#f1f5ed] border-t border-[#c2c9bf]/30">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -270,18 +263,17 @@ export const AssistantView: React.FC<AssistantViewProps> = ({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
-              className="flex-1 px-4 py-2.5 text-xs sm:text-sm bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#163323] text-gray-900"
+              className="flex-1 px-5 py-3 text-xs sm:text-sm bg-white border border-[#c2c9bf]/60 rounded-full focus:outline-none focus:ring-2 focus:ring-[#1e6b45] text-[#191d19]"
             />
             <button
               type="submit"
               disabled={!input.trim() || loading}
-              className="px-4 py-2.5 bg-[#163323] hover:bg-[#204933] disabled:opacity-50 text-white rounded-xl text-xs sm:text-sm font-bold transition-colors flex items-center space-x-1.5 shrink-0"
+              className="w-11 h-11 bg-[#1e6b45] hover:bg-[#155335] disabled:opacity-50 text-white rounded-full flex items-center justify-center transition-transform active:scale-95 shadow-xs shrink-0"
             >
               <Send className="w-4 h-4" />
-              <span className="hidden sm:inline">Ask</span>
             </button>
           </form>
-          <div className="text-[10px] text-gray-400 mt-1.5 text-center">
+          <div className="text-[10px] text-[#727972] mt-2 text-center">
             AIRWISE answers three questions for every recommendation: What should I do? Why? What difference will it make?
           </div>
         </div>

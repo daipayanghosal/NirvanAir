@@ -2,14 +2,9 @@ import React, { useState } from "react";
 import {
   Settings,
   Key,
-  ShieldCheck,
   CheckCircle2,
   Trash2,
-  Download,
-  Database,
-  Sliders,
-  Sparkles,
-  Info
+  Download
 } from "lucide-react";
 import { UserProfile, EnvironmentalData } from "../types";
 
@@ -27,7 +22,6 @@ interface SettingsViewProps {
 export const SettingsView: React.FC<SettingsViewProps> = ({
   userProfile,
   envData,
-  onUpdateProfile,
   isDemoMode,
   onToggleDemoMode,
   aqiStandard,
@@ -66,35 +60,37 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     <div className="space-y-6 pb-12">
       
       {/* Header */}
-      <div className="bg-white rounded-2xl p-6 border border-[#e2e8e0] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-[#ffffff] rounded-[28px] p-6 border border-[#c2c9bf]/40 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center space-x-2 text-xs font-bold text-[#163323] uppercase tracking-wider mb-1">
-            <Settings className="w-4 h-4 text-emerald-600" />
+          <div className="flex items-center space-x-2 m3-label-medium text-[#1e6b45] uppercase tracking-wider mb-1">
+            <Settings className="w-4 h-4 text-[#1e6b45]" />
             <span>Application Configuration</span>
           </div>
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">Settings & API Management</h1>
-          <p className="text-xs text-gray-500 mt-1 max-w-xl">
+          <h1 className="m3-headline-small text-[#191d19]">Settings & API Management</h1>
+          <p className="m3-body-small text-[#727972] mt-0.5 max-w-xl">
             Configure Google Gemini API credentials, telemetry preferences, and export persistent household decision data.
           </p>
         </div>
       </div>
 
       {/* 1. Google Gemini API Key Management */}
-      <div className="bg-white rounded-2xl p-6 border border-[#e2e8e0] shadow-xs space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-          <div className="flex items-center space-x-2">
-            <Key className="w-5 h-5 text-emerald-600" />
+      <div className="bg-[#ffffff] rounded-[28px] p-6 border border-[#c2c9bf]/40 shadow-xs space-y-4">
+        <div className="flex items-center justify-between pb-3.5 border-b border-[#c2c9bf]/30">
+          <div className="flex items-center space-x-2.5">
+            <div className="w-9 h-9 rounded-2xl bg-[#d3e8d4] text-[#0e1f13] flex items-center justify-center font-bold">
+              <Key className="w-5 h-5 text-[#1e6b45]" />
+            </div>
             <div>
-              <h2 className="text-base font-bold text-gray-900 tracking-tight">Google Gemini API Configuration</h2>
-              <span className="text-xs text-gray-500">Provide an optional custom key or use the backend environment default</span>
+              <h2 className="m3-title-small text-[#191d19]">Google Gemini API Configuration</h2>
+              <span className="m3-body-small text-[#727972]">Provide an optional custom key or use backend defaults</span>
             </div>
           </div>
-          <span className="text-xs bg-emerald-50 text-emerald-800 font-semibold px-2.5 py-1 rounded-lg">
+          <span className="text-xs bg-[#d3e8d4] text-[#0e1f13] font-bold px-3 py-1 rounded-full">
             Gemini 2.5 Active
           </span>
         </div>
 
-        <p className="text-xs text-gray-600 leading-relaxed">
+        <p className="m3-body-small text-[#424942] leading-relaxed">
           AIRWISE runs with a secure server-side Gemini integration. If running locally without backend environment variables, you can provide your Google AI Studio Gemini API key below:
         </p>
 
@@ -104,57 +100,57 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             placeholder="AIzaSy..."
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
-            className="flex-1 text-xs p-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#163323]"
+            className="flex-1 text-xs p-3 bg-[#f1f5ed] border border-[#c2c9bf]/60 rounded-full focus:ring-2 focus:ring-[#1e6b45] text-[#191d19]"
           />
           <button
             onClick={handleSaveKey}
-            className="px-4 py-2 bg-[#163323] hover:bg-[#204933] text-white text-xs font-bold rounded-xl transition-colors shrink-0"
+            className="px-5 py-2.5 bg-[#1e6b45] hover:bg-[#155335] text-white text-xs font-bold rounded-full transition-transform active:scale-95 shadow-xs shrink-0"
           >
             Save Key
           </button>
         </div>
 
         {keySaved && (
-          <div className="text-xs font-semibold text-emerald-700 flex items-center space-x-1">
-            <CheckCircle2 className="w-3.5 h-3.5" />
+          <div className="text-xs font-bold text-[#1e6b45] flex items-center space-x-1.5 animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4" />
             <span>Gemini API key saved to local session.</span>
           </div>
         )}
       </div>
 
       {/* 2. Telemetry & AQI Standards */}
-      <div className="bg-white rounded-2xl p-6 border border-[#e2e8e0] shadow-xs space-y-4">
-        <h2 className="text-base font-bold text-gray-900 tracking-tight pb-2 border-b border-gray-100">
+      <div className="bg-[#ffffff] rounded-[28px] p-6 border border-[#c2c9bf]/40 shadow-xs space-y-4">
+        <h2 className="m3-title-medium text-[#191d19] pb-2 border-b border-[#c2c9bf]/30">
           Telemetry & Index Standards
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           
-          <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between">
+          <div className="p-4 rounded-[22px] bg-[#f1f5ed] border border-[#c2c9bf]/40 flex items-center justify-between">
             <div>
-              <strong className="text-gray-900 block text-sm mb-0.5">Air Quality Standard</strong>
-              <span className="text-gray-500">
+              <strong className="text-[#191d19] block text-sm mb-0.5">Air Quality Standard</strong>
+              <span className="text-[#506353]">
                 {aqiStandard === "NAQI" ? "Indian CPCB NAQI (6 Categories)" : "US EPA Standard (0-500)"}
               </span>
             </div>
             <button
               onClick={() => onToggleAqiStandard(aqiStandard === "NAQI" ? "USEPA" : "NAQI")}
-              className="px-3 py-1.5 bg-[#163323] text-white font-semibold rounded-lg hover:bg-[#204933] transition-colors"
+              className="px-4 py-2 bg-[#1e6b45] text-white font-bold rounded-full hover:bg-[#155335] transition-transform active:scale-95 shadow-xs"
             >
               Switch to {aqiStandard === "NAQI" ? "US EPA" : "NAQI"}
             </button>
           </div>
 
-          <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between">
+          <div className="p-4 rounded-[22px] bg-[#f1f5ed] border border-[#c2c9bf]/40 flex items-center justify-between">
             <div>
-              <strong className="text-gray-900 block text-sm mb-0.5">Data Feed Mode</strong>
-              <span className="text-gray-500">
-                {isDemoMode ? "Durgapur Winter Smog Baseline" : "Live Satellite & Station Bridge"}
+              <strong className="text-[#191d19] block text-sm mb-0.5">Data Feed Mode</strong>
+              <span className="text-[#506353]">
+                {isDemoMode ? "Durgapur Winter Baseline" : "Live Atmospheric Sensing"}
               </span>
             </div>
             <button
               onClick={() => onToggleDemoMode(!isDemoMode)}
-              className="px-3 py-1.5 bg-[#163323] text-white font-semibold rounded-lg hover:bg-[#204933] transition-colors"
+              className="px-4 py-2 bg-[#1e6b45] text-white font-bold rounded-full hover:bg-[#155335] transition-transform active:scale-95 shadow-xs"
             >
               Switch to {isDemoMode ? "Live Sensing" : "Demo Mode"}
             </button>
@@ -164,25 +160,25 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       </div>
 
       {/* 3. Data Export & Reset */}
-      <div className="bg-white rounded-2xl p-6 border border-[#e2e8e0] shadow-xs space-y-4">
-        <h2 className="text-base font-bold text-gray-900 tracking-tight pb-2 border-b border-gray-100">
+      <div className="bg-[#ffffff] rounded-[28px] p-6 border border-[#c2c9bf]/40 shadow-xs space-y-4">
+        <h2 className="m3-title-medium text-[#191d19] pb-2 border-b border-[#c2c9bf]/30">
           Data Management
         </h2>
 
         <div className="flex flex-wrap gap-3">
           <button
             onClick={handleExportData}
-            className="flex items-center space-x-1.5 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-semibold rounded-xl transition-colors"
+            className="flex items-center space-x-2 px-5 py-2.5 bg-[#f1f5ed] hover:bg-[#dfe5dc] text-[#191d19] text-xs font-bold rounded-full transition-colors"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>Export Household Profile & Impact Log (JSON)</span>
+            <Download className="w-4 h-4 text-[#1e6b45]" />
+            <span>Export Household Profile & Log (JSON)</span>
           </button>
 
           <button
             onClick={onResetAll}
-            className="flex items-center space-x-1.5 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-semibold rounded-xl transition-colors"
+            className="flex items-center space-x-2 px-5 py-2.5 bg-[#ffdad6] hover:bg-[#ffb4ab] text-[#410002] text-xs font-bold rounded-full transition-colors"
           >
-            <Trash2 className="w-3.5 h-3.5" />
+            <Trash2 className="w-4 h-4" />
             <span>Reset Profile & Clear Recorded Swaps</span>
           </button>
         </div>

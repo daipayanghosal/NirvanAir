@@ -2,15 +2,9 @@ import React, { useState } from "react";
 import {
   Wind,
   MapPin,
-  Users,
-  Car,
-  Activity,
-  DollarSign,
   ChevronRight,
   ChevronLeft,
-  CheckCircle2,
-  X,
-  Sparkles
+  X
 } from "lucide-react";
 import { UserProfile } from "../types";
 
@@ -52,33 +46,36 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
-      <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-gray-100 overflow-hidden flex flex-col">
+      <div className="bg-[#ffffff] rounded-[32px] max-w-lg w-full shadow-2xl border border-[#c2c9bf]/40 overflow-hidden flex flex-col">
         
-        {/* Modal Header */}
-        <div className="p-6 bg-[#163323] text-white flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#849974] to-[#406850] flex items-center justify-center">
-              <Wind className="w-5 h-5 text-white" />
+        {/* M3 Modal Header */}
+        <div className="p-6 bg-[#f1f5ed] border-b border-[#c2c9bf]/30 flex items-center justify-between">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-[#bbf3cd] text-[#002111] flex items-center justify-center shadow-xs">
+              <Wind className="w-6 h-6 text-[#1e6b45]" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-bold text-base tracking-tight">Welcome to AIRWISE</span>
-                <span className="text-[10px] bg-[#244b35] text-[#b6d4be] px-1.5 py-0.5 rounded font-mono">
+                <span className="m3-title-medium text-[#191d19]">Welcome to AIRWISE</span>
+                <span className="text-[10px] bg-[#d3e8d4] text-[#0e1f13] px-2.5 py-0.5 rounded-full font-bold">
                   Step {step}/4
                 </span>
               </div>
-              <p className="text-xs text-[#b0c8b6]">Hyperlocal air intelligence tailored to your home</p>
+              <p className="m3-body-small text-[#727972]">Hyperlocal air intelligence tailored to your home</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-white p-1">
+          <button
+            onClick={onClose}
+            className="w-9 h-9 rounded-full hover:bg-[#ebf0e8] flex items-center justify-center text-[#424942]"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Step Progress Bar */}
-        <div className="w-full bg-gray-100 h-1.5">
+        {/* M3 Linear Progress Indicator */}
+        <div className="w-full bg-[#ebf0e8] h-1.5">
           <div
-            className="bg-[#163323] h-full transition-all duration-300"
+            className="bg-[#1e6b45] h-full transition-all duration-300"
             style={{ width: `${(step / 4) * 100}%` }}
           />
         </div>
@@ -90,95 +87,95 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
           {step === 1 && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-base font-bold text-gray-900 tracking-tight mb-1">Where do you live?</h3>
-                <p className="text-gray-500">
+                <h3 className="m3-title-small text-[#191d19] mb-1">Where do you live?</h3>
+                <p className="m3-body-small text-[#727972]">
                   AIRWISE uses hyperlocal atmospheric modeling and local monitoring stations to assess ground-level smog.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <label className="font-semibold text-gray-700 block">Your Primary City / Neighborhood</label>
+                <label className="m3-label-medium text-[#424942] block">Your City / Neighborhood</label>
                 <div className="relative">
                   <input
                     type="text"
                     value={profile.location_name}
                     onChange={(e) => setProfile({ ...profile, location_name: e.target.value })}
-                    className="w-full p-2.5 pl-9 bg-gray-50 border border-gray-300 rounded-xl font-medium text-gray-900 focus:ring-2 focus:ring-[#163323]"
+                    className="w-full p-3 pl-10 bg-[#f1f5ed] border border-[#c2c9bf]/60 rounded-full font-bold text-[#191d19] focus:ring-2 focus:ring-[#1e6b45] text-xs"
                   />
-                  <MapPin className="w-4 h-4 text-emerald-600 absolute left-3 top-3" />
+                  <MapPin className="w-4 h-4 text-[#1e6b45] absolute left-3.5 top-3.5" />
                 </div>
               </div>
 
-              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-emerald-950">
+              <div className="p-4 bg-[#d3e8d4]/40 rounded-[22px] border border-[#d3e8d4] text-[#0e1f13]">
                 <strong>Demonstration Hub:</strong> Defaults to Durgapur, West Bengal (industrial winter smog profile). You can switch to any global or Indian city anytime.
               </div>
             </div>
           )}
 
-          {/* STEP 2: Household Members & Vulnerabilities */}
+          {/* STEP 2: Household Members */}
           {step === 2 && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-base font-bold text-gray-900 tracking-tight mb-1">Who lives in your home?</h3>
-                <p className="text-gray-500">
+                <h3 className="m3-title-small text-[#191d19] mb-1">Who lives in your home?</h3>
+                <p className="m3-body-small text-[#727972]">
                   Recommendations adapt heavily if children, senior citizens, or asthmatic individuals reside together.
                 </p>
               </div>
 
               <div>
-                <label className="font-semibold text-gray-700 block mb-1">Household Size</label>
+                <label className="m3-label-medium text-[#424942] block mb-1.5">Household Size</label>
                 <input
                   type="number"
                   min="1"
                   max="10"
                   value={profile.household_size}
                   onChange={(e) => setProfile({ ...profile, household_size: Number(e.target.value) })}
-                  className="w-24 p-2 bg-gray-50 border border-gray-300 rounded-xl font-bold text-center text-sm"
+                  className="w-24 p-3 bg-[#f1f5ed] border border-[#c2c9bf]/60 rounded-2xl font-black text-center text-sm text-[#191d19]"
                 />
               </div>
 
-              <div className="space-y-2 pt-2">
-                <label className="font-semibold text-gray-700 block">Household Composition</label>
+              <div className="space-y-2.5 pt-2">
+                <label className="m3-label-medium text-[#424942] block">Household Composition</label>
                 
-                <label className="flex items-center space-x-2.5 p-2.5 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center space-x-3 p-3.5 rounded-[20px] border border-[#c2c9bf]/40 bg-[#f1f5ed] cursor-pointer hover:bg-[#ebf0e8] transition-colors">
                   <input
                     type="checkbox"
                     checked={profile.has_children}
                     onChange={(e) => setProfile({ ...profile, has_children: e.target.checked })}
-                    className="rounded text-[#163323] focus:ring-[#163323]"
+                    className="rounded text-[#1e6b45] focus:ring-[#1e6b45] w-4 h-4"
                   />
-                  <span className="font-medium text-gray-800">Children / Toddlers present (Under 14)</span>
+                  <span className="font-bold text-[#191d19]">Children / Toddlers present (Under 14)</span>
                 </label>
 
-                <label className="flex items-center space-x-2.5 p-2.5 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center space-x-3 p-3.5 rounded-[20px] border border-[#c2c9bf]/40 bg-[#f1f5ed] cursor-pointer hover:bg-[#ebf0e8] transition-colors">
                   <input
                     type="checkbox"
                     checked={profile.has_elderly}
                     onChange={(e) => setProfile({ ...profile, has_elderly: e.target.checked })}
-                    className="rounded text-[#163323] focus:ring-[#163323]"
+                    className="rounded text-[#1e6b45] focus:ring-[#1e6b45] w-4 h-4"
                   />
-                  <span className="font-medium text-gray-800">Senior Citizens present (65+)</span>
+                  <span className="font-bold text-[#191d19]">Senior Citizens present (65+)</span>
                 </label>
               </div>
             </div>
           )}
 
-          {/* STEP 3: Commute & Daily Routine */}
+          {/* STEP 3: Commute & Exercise */}
           {step === 3 && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-base font-bold text-gray-900 tracking-tight mb-1">How do you commute and exercise?</h3>
-                <p className="text-gray-500">
+                <h3 className="m3-title-small text-[#191d19] mb-1">Commuting & Exercise</h3>
+                <p className="m3-body-small text-[#727972]">
                   Helps our AI Daily Planner schedule your outdoor movements around smog peaks.
                 </p>
               </div>
 
               <div>
-                <label className="font-semibold text-gray-700 block mb-1">Primary Commuting Method</label>
+                <label className="m3-label-medium text-[#424942] block mb-1.5">Primary Commuting Method</label>
                 <select
                   value={profile.commute_mode}
                   onChange={(e) => setProfile({ ...profile, commute_mode: e.target.value })}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#163323]"
+                  className="w-full p-3 bg-[#f1f5ed] border border-[#c2c9bf]/60 rounded-2xl focus:ring-2 focus:ring-[#1e6b45] text-[#191d19]"
                 >
                   <option value="two-wheeler">Open Motorcycle / Scooter (Two-Wheeler)</option>
                   <option value="car">Private Petrol / Diesel Car</option>
@@ -188,11 +185,11 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
               </div>
 
               <div>
-                <label className="font-semibold text-gray-700 block mb-1">Exercise Habits</label>
+                <label className="m3-label-medium text-[#424942] block mb-1.5">Exercise Habits</label>
                 <select
                   value={profile.exercise_pref}
                   onChange={(e) => setProfile({ ...profile, exercise_pref: e.target.value })}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#163323]"
+                  className="w-full p-3 bg-[#f1f5ed] border border-[#c2c9bf]/60 rounded-2xl focus:ring-2 focus:ring-[#1e6b45] text-[#191d19]"
                 >
                   <option value="morning_outdoor">Outdoor Jogging / Running (Morning)</option>
                   <option value="evening_outdoor">Outdoor Walking (Evening)</option>
@@ -203,28 +200,28 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
             </div>
           )}
 
-          {/* STEP 4: Budget & Air Purifier Setup */}
+          {/* STEP 4: Budget & Purifier */}
           {step === 4 && (
             <div className="space-y-4">
               <div>
-                <h3 className="text-base font-bold text-gray-900 tracking-tight mb-1">Affordability & Equipment</h3>
-                <p className="text-gray-500">
+                <h3 className="m3-title-small text-[#191d19] mb-1">Affordability & Equipment</h3>
+                <p className="m3-body-small text-[#727972]">
                   AIRWISE prioritizes zero-cost and affordable interventions rather than expecting every family to buy expensive machines.
                 </p>
               </div>
 
               <div>
-                <label className="font-semibold text-gray-700 block mb-1.5">Household Budget Preference</label>
+                <label className="m3-label-medium text-[#424942] block mb-2">Household Budget Preference</label>
                 <div className="grid grid-cols-3 gap-2">
                   {(["budget", "moderate", "premium"] as const).map((b) => (
                     <button
                       key={b}
                       type="button"
                       onClick={() => setProfile({ ...profile, budget: b })}
-                      className={`p-3 rounded-xl border text-center uppercase tracking-wider font-bold transition-all ${
+                      className={`p-3.5 rounded-[20px] border text-center uppercase tracking-wider font-bold transition-all text-xs ${
                         profile.budget === b
-                          ? "bg-[#163323] text-white border-[#163323]"
-                          : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
+                          ? "bg-[#1e6b45] text-white border-[#1e6b45] shadow-xs"
+                          : "bg-[#f1f5ed] text-[#424942] border-[#c2c9bf]/50 hover:bg-[#ebf0e8]"
                       }`}
                     >
                       {b}
@@ -234,16 +231,16 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
               </div>
 
               <div className="pt-2">
-                <label className="flex items-center space-x-2.5 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center space-x-3 p-3.5 rounded-[20px] border border-[#c2c9bf]/40 bg-[#f1f5ed] cursor-pointer hover:bg-[#ebf0e8] transition-colors">
                   <input
                     type="checkbox"
                     checked={profile.has_air_purifier}
                     onChange={(e) => setProfile({ ...profile, has_air_purifier: e.target.checked })}
-                    className="rounded text-[#163323] focus:ring-[#163323]"
+                    className="rounded text-[#1e6b45] focus:ring-[#1e6b45] w-4 h-4"
                   />
                   <div>
-                    <span className="font-semibold text-gray-900 block">I currently own an electric HEPA air purifier</span>
-                    <span className="text-gray-500 text-[11px]">If unchecked, we'll provide DIY Corsi-Rosenthal & wet-barrier guides.</span>
+                    <span className="font-bold text-[#191d19] block">I currently own an electric HEPA air purifier</span>
+                    <span className="text-[#506353] text-[11px]">If unchecked, we'll provide DIY Corsi-Rosenthal & wet-barrier guides.</span>
                   </div>
                 </label>
               </div>
@@ -253,12 +250,12 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
         </div>
 
         {/* Modal Footer Controls */}
-        <div className="p-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
+        <div className="p-5 bg-[#f1f5ed] border-t border-[#c2c9bf]/30 flex items-center justify-between">
           <div>
             {step > 1 ? (
               <button
                 onClick={handleBack}
-                className="px-3 py-1.5 text-gray-600 font-semibold hover:text-gray-900 flex items-center space-x-1"
+                className="px-4 py-2 text-[#424942] font-bold hover:text-[#191d19] flex items-center space-x-1"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -266,16 +263,16 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
             ) : (
               <button
                 onClick={handleSkip}
-                className="text-gray-400 hover:text-gray-600 font-medium text-xs px-2"
+                className="text-[#727972] hover:text-[#191d19] font-semibold text-xs px-2"
               >
-                Skip / Use Defaults
+                Skip Setup
               </button>
             )}
           </div>
 
           <button
             onClick={handleNext}
-            className="px-5 py-2 bg-[#163323] hover:bg-[#204933] text-white rounded-xl font-bold flex items-center space-x-1.5 shadow-xs transition-colors"
+            className="px-6 py-2.5 bg-[#1e6b45] hover:bg-[#155335] text-white rounded-full font-bold flex items-center space-x-1.5 shadow-xs transition-transform active:scale-95"
           >
             <span>{step === 4 ? "Complete Setup" : "Next Step"}</span>
             <ChevronRight className="w-4 h-4" />

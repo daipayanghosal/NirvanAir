@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  CalendarCheck,
   Clock,
   Sparkles,
   Sun,
@@ -15,8 +14,7 @@ import {
   Sliders,
   CheckCircle2,
   AlertCircle,
-  RefreshCw,
-  Compass
+  RefreshCw
 } from "lucide-react";
 import { EnvironmentalData, UserProfile, DailyPlanSegment } from "../types";
 
@@ -58,14 +56,14 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
 
   const getSegmentIcon = (iconName: string) => {
     switch (iconName) {
-      case "Sun": return <Sun className="w-5 h-5 text-amber-500" />;
-      case "Activity": return <Activity className="w-5 h-5 text-rose-500" />;
-      case "Navigation": return <Navigation className="w-5 h-5 text-blue-500" />;
-      case "ShoppingBag": return <ShoppingBag className="w-5 h-5 text-emerald-500" />;
-      case "ShieldAlert": return <ShieldAlert className="w-5 h-5 text-red-500" />;
-      case "Utensils": return <Utensils className="w-5 h-5 text-orange-500" />;
-      case "Moon": return <Moon className="w-5 h-5 text-indigo-400" />;
-      default: return <Clock className="w-5 h-5 text-gray-400" />;
+      case "Sun": return <Sun className="w-5 h-5 text-amber-600" />;
+      case "Activity": return <Activity className="w-5 h-5 text-rose-600" />;
+      case "Navigation": return <Navigation className="w-5 h-5 text-blue-600" />;
+      case "ShoppingBag": return <ShoppingBag className="w-5 h-5 text-emerald-600" />;
+      case "ShieldAlert": return <ShieldAlert className="w-5 h-5 text-red-600" />;
+      case "Utensils": return <Utensils className="w-5 h-5 text-orange-600" />;
+      case "Moon": return <Moon className="w-5 h-5 text-indigo-600" />;
+      default: return <Clock className="w-5 h-5 text-gray-500" />;
     }
   };
 
@@ -75,15 +73,15 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
   return (
     <div className="space-y-6 pb-12">
       
-      {/* Header Banner */}
-      <div className="bg-white rounded-2xl p-6 border border-[#e2e8e0] shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      {/* M3 Header Banner */}
+      <div className="bg-[#ffffff] rounded-[28px] p-6 border border-[#c2c9bf]/40 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center space-x-2 text-xs font-bold text-[#163323] uppercase tracking-wider mb-1">
-            <Sparkles className="w-4 h-4 text-emerald-600" />
-            <span>AI Dynamic Daily Routine</span>
+          <div className="flex items-center space-x-2 m3-label-medium text-[#1e6b45] uppercase tracking-wider mb-1">
+            <Sparkles className="w-4 h-4 text-[#1e6b45]" />
+            <span>AI Dynamic Schedule</span>
           </div>
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">Personalized Clean-Air Schedule</h1>
-          <p className="text-xs text-gray-500 mt-1 max-w-xl">
+          <h1 className="m3-headline-small text-[#191d19]">Personalized Clean-Air Schedule</h1>
+          <p className="m3-body-small text-[#727972] mt-0.5 max-w-xl">
             Customized 24-hour guidance harmonizing your schedule with real-time atmospheric inversion dynamics ({aqi} NAQI — {category}) in {envData.location.name}.
           </p>
         </div>
@@ -91,14 +89,14 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
         <div className="flex items-center space-x-2 shrink-0">
           <button
             onClick={() => setIsEditingPreferences(!isEditingPreferences)}
-            className="flex items-center space-x-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 transition-colors"
+            className="flex items-center space-x-1.5 px-4 py-2 text-xs font-bold rounded-full bg-[#ebf0e8] hover:bg-[#dfe5dc] text-[#191d19] transition-colors"
           >
             <Sliders className="w-3.5 h-3.5" />
             <span>{isEditingPreferences ? "Close Preferences" : "Customize Lifestyle"}</span>
           </button>
           <button
             onClick={onRefreshPlan}
-            className="flex items-center space-x-1.5 px-3 py-2 text-xs font-semibold rounded-xl bg-[#163323] hover:bg-[#204933] text-white transition-colors"
+            className="flex items-center space-x-1.5 px-4 py-2 text-xs font-bold rounded-full bg-[#1e6b45] hover:bg-[#155335] text-white transition-transform active:scale-95 shadow-xs"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Regenerate Plan</span>
@@ -106,20 +104,20 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
         </div>
       </div>
 
-      {/* Preference Customizer Drawer */}
+      {/* M3 Preference Customizer Drawer */}
       {isEditingPreferences && (
-        <div className="bg-[#f8faf8] border border-[#d6e5d9] p-5 rounded-2xl animate-in fade-in slide-in-from-top-2">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#163323] mb-3">
+        <div className="bg-[#f1f5ed] border border-[#c2c9bf]/50 p-6 rounded-[28px] animate-in fade-in slide-in-from-top-2">
+          <h3 className="m3-title-small text-[#191d19] mb-4">
             Lifestyle & Household Preferences
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             
             <div>
-              <label className="text-xs font-semibold text-gray-700 block mb-1">Primary Commute Mode</label>
+              <label className="m3-label-medium text-[#424942] block mb-1.5">Primary Commute Mode</label>
               <select
                 value={commuteMode}
                 onChange={(e) => setCommuteMode(e.target.value)}
-                className="w-full text-xs p-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#163323]"
+                className="w-full text-xs p-3 bg-white border border-[#c2c9bf]/60 rounded-2xl focus:ring-2 focus:ring-[#1e6b45] text-[#191d19]"
               >
                 <option value="two-wheeler">Motorcycle / Scooter (Two-Wheeler)</option>
                 <option value="car">Private Petrol / Diesel Car</option>
@@ -129,11 +127,11 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-gray-700 block mb-1">Exercise Preference</label>
+              <label className="m3-label-medium text-[#424942] block mb-1.5">Exercise Preference</label>
               <select
                 value={exercisePref}
                 onChange={(e) => setExercisePref(e.target.value)}
-                className="w-full text-xs p-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#163323]"
+                className="w-full text-xs p-3 bg-white border border-[#c2c9bf]/60 rounded-2xl focus:ring-2 focus:ring-[#1e6b45] text-[#191d19]"
               >
                 <option value="morning_outdoor">Outdoor Jogging / Running (Morning)</option>
                 <option value="evening_outdoor">Outdoor Walking (Evening)</option>
@@ -143,11 +141,11 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-gray-700 block mb-1">Budget Allocation</label>
+              <label className="m3-label-medium text-[#424942] block mb-1.5">Budget Allocation</label>
               <select
                 value={budget}
                 onChange={(e: any) => setBudget(e.target.value)}
-                className="w-full text-xs p-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#163323]"
+                className="w-full text-xs p-3 bg-white border border-[#c2c9bf]/60 rounded-2xl focus:ring-2 focus:ring-[#1e6b45] text-[#191d19]"
               >
                 <option value="budget">Budget Mode (DIY & Zero-Cost Measures)</option>
                 <option value="moderate">Moderate (Standard Filters & Masks)</option>
@@ -160,7 +158,7 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
           <div className="flex justify-end mt-4">
             <button
               onClick={handleSavePreferences}
-              className="px-4 py-1.5 bg-[#163323] text-white text-xs font-semibold rounded-lg hover:bg-[#204933] transition-colors"
+              className="px-5 py-2.5 bg-[#1e6b45] text-white text-xs font-bold rounded-full hover:bg-[#155335] transition-transform active:scale-95 shadow-xs"
             >
               Apply Changes & Recalculate Plan
             </button>
@@ -169,11 +167,11 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
       )}
 
       {/* Atmospheric Context Callout */}
-      <div className="p-4 bg-emerald-50/70 border border-emerald-200/80 rounded-xl flex items-start space-x-3 text-xs text-[#163323]">
-        <Clock className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+      <div className="p-4 rounded-[24px] bg-[#d3e8d4]/60 border border-[#1e6b45]/30 flex items-start space-x-3 text-xs text-[#0e1f13]">
+        <Clock className="w-4 h-4 text-[#1e6b45] shrink-0 mt-0.5" />
         <div>
           <span className="font-bold">Diurnal Smog Inversion Awareness:</span>
-          <span className="ml-1 text-emerald-900">
+          <span className="ml-1 opacity-90">
             {aqi > 200
               ? `Due to high surface particulate density (${aqi} NAQI), strenuous morning outdoor activities are shifted indoors or to the 1:30 PM – 3:30 PM solar dispersal window.`
               : `Current air conditions allow moderate outdoor activity, but commuter respiratory protection remains advised.`}
@@ -181,7 +179,7 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
         </div>
       </div>
 
-      {/* 7-Segment Timeline Grid */}
+      {/* 7-Segment Timeline Grid with M3 Cards */}
       <div className="space-y-4">
         {planSegments.map((segment, idx) => {
           const isExpanded = expandedAlternatives[idx] || false;
@@ -191,34 +189,34 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
           return (
             <div
               key={idx}
-              className={`bg-white rounded-2xl p-5 border transition-all ${
+              className={`bg-[#ffffff] rounded-[28px] p-6 border transition-all ${
                 isCritical
-                  ? "border-amber-300 shadow-sm"
+                  ? "border-[#ba1a1a]/40 shadow-xs"
                   : isAdjusted
-                  ? "border-emerald-300 shadow-xs"
-                  : "border-[#e2e8e0] shadow-xs"
+                  ? "border-[#1e6b45]/40 shadow-2xs"
+                  : "border-[#c2c9bf]/40 shadow-2xs"
               }`}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-gray-100 gap-2">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2.5 rounded-xl bg-gray-50 border border-gray-100">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-[#c2c9bf]/20 gap-2">
+                <div className="flex items-center space-x-3.5">
+                  <div className="w-11 h-11 rounded-2xl bg-[#ebf0e8] flex items-center justify-center">
                     {getSegmentIcon(segment.icon)}
                   </div>
                   <div>
                     <div className="flex items-center space-x-2">
-                      <h2 className="text-sm font-bold text-gray-900 tracking-tight">{segment.segment}</h2>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                      <h2 className="m3-title-small text-[#191d19]">{segment.segment}</h2>
+                      <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider ${
                         isCritical
-                          ? "bg-red-50 text-red-700 border border-red-200"
+                          ? "bg-[#ffdad6] text-[#ba1a1a]"
                           : isAdjusted
-                          ? "bg-amber-50 text-amber-700 border border-amber-200"
-                          : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                          ? "bg-[#beeaf2] text-[#001f24]"
+                          : "bg-[#d3e8d4] text-[#0e1f13]"
                       }`}>
                         {segment.status}
                       </span>
                     </div>
-                    <div className="flex items-center space-x-1.5 text-xs text-gray-500 mt-0.5 font-medium">
-                      <Clock className="w-3.5 h-3.5 text-gray-400" />
+                    <div className="flex items-center space-x-1.5 text-xs text-[#506353] mt-0.5 font-semibold">
+                      <Clock className="w-3.5 h-3.5 text-[#727972]" />
                       <span>{segment.time_window}</span>
                     </div>
                   </div>
@@ -226,45 +224,45 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
 
                 <button
                   onClick={() => toggleAlternative(idx)}
-                  className="text-xs font-semibold text-[#163323] hover:text-emerald-700 flex items-center space-x-1 self-start sm:self-auto bg-gray-50 hover:bg-gray-100 px-2.5 py-1 rounded-lg transition-colors"
+                  className="text-xs font-bold text-[#1e6b45] hover:text-[#155335] flex items-center space-x-1 self-start sm:self-auto bg-[#ebf0e8] hover:bg-[#dfe5dc] px-3.5 py-1.5 rounded-full transition-colors"
                 >
                   <span>{isExpanded ? "Hide Alternative" : "Alternative Plan"}</span>
                   {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                 </button>
               </div>
 
-              {/* The Core 3 Questions Card Body */}
+              {/* The Core 3 Questions M3 Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 text-xs">
                 
                 {/* 1. What should I do? */}
-                <div className="p-3 rounded-xl bg-gray-50/80 border border-gray-100">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1 flex items-center space-x-1">
-                    <CheckCircle2 className="w-3 h-3 text-[#163323]" />
+                <div className="p-4 rounded-[22px] bg-[#f1f5ed] border border-[#c2c9bf]/30">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#727972] mb-1.5 flex items-center space-x-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1e6b45]" />
                     <span>1. What should I do?</span>
                   </div>
-                  <p className="font-semibold text-gray-900 leading-snug">
+                  <p className="font-bold text-[#191d19] leading-snug">
                     {segment.suggested_activity}
                   </p>
                 </div>
 
                 {/* 2. Why should I do it? */}
-                <div className="p-3 rounded-xl bg-gray-50/80 border border-gray-100">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1 flex items-center space-x-1">
-                    <AlertCircle className="w-3 h-3 text-amber-600" />
+                <div className="p-4 rounded-[22px] bg-[#f1f5ed] border border-[#c2c9bf]/30">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#727972] mb-1.5 flex items-center space-x-1.5">
+                    <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
                     <span>2. Why should I do it?</span>
                   </div>
-                  <p className="text-gray-700 leading-snug">
+                  <p className="text-[#424942] leading-relaxed">
                     {segment.reasoning}
                   </p>
                 </div>
 
-                {/* 3. What difference will it make? */}
-                <div className="p-3 rounded-xl bg-emerald-50/50 border border-emerald-100">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 mb-1 flex items-center space-x-1">
-                    <Sparkles className="w-3 h-3 text-emerald-600" />
-                    <span>3. Expected Benefit</span>
+                {/* 3. Expected Benefit */}
+                <div className="p-4 rounded-[22px] bg-[#d3e8d4]/40 border border-[#d3e8d4]">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#0e1f13] mb-1.5 flex items-center space-x-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#1e6b45]" />
+                    <span>3. Expected Difference</span>
                   </div>
-                  <p className="font-semibold text-emerald-950 leading-snug">
+                  <p className="font-bold text-[#0e1f13] leading-relaxed">
                     {segment.expected_benefit}
                   </p>
                 </div>
@@ -273,8 +271,8 @@ export const PlannerView: React.FC<PlannerViewProps> = ({
 
               {/* Alternative Accordion */}
               {isExpanded && (
-                <div className="mt-3 p-3 bg-amber-50/80 border border-amber-200/80 rounded-xl text-xs text-amber-900 animate-in fade-in">
-                  <strong className="block text-[11px] font-bold text-amber-950 mb-0.5">
+                <div className="mt-3.5 p-4 bg-[#beeaf2]/40 border border-[#beeaf2] rounded-[22px] text-xs text-[#001f24] animate-in fade-in">
+                  <strong className="block text-[11px] font-bold text-[#001f24] mb-0.5">
                     Feasible Alternative (If recommendation is impractical):
                   </strong>
                   <span>{segment.alternative}</span>
